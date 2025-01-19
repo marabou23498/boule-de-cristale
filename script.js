@@ -1,12 +1,9 @@
-// Liste des messages romantiques
-let romanticMessages = [
-    "Tu es mon miracle au quotidien ❤️",
-    "Chaque jour avec toi est une bénédiction 🥰",
-    "Mon cœur bat pour toi, toujours 💖",
-    "Je t’aime plus que tout au monde 💕",
-    "Tu es la lumière de ma vie ✨",
-];
-let originalMessages = [...romanticMessages];
+// Générer une liste de 1000 messages d'amour
+let romanticMessages = [];
+for (let i = 1; i <= 1000; i++) {
+    romanticMessages.push(`Message d'amour numéro ${i} ❤️`);
+}
+let originalMessages = [...romanticMessages]; // Sauvegarde des messages originaux
 
 // Créer la scène
 const scene = new THREE.Scene();
@@ -29,15 +26,15 @@ scene.add(supportMesh);
 // Boule de cristal avec effet verre ajusté
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.9,
-    roughness: 0.05,
+    transmission: 0.85,
+    roughness: 0.1,
     thickness: 2,
     clearcoat: 1.0,
     clearcoatRoughness: 0.02,
     envMapIntensity: 2.0,
     reflectivity: 0.7,
     ior: 1.45,
-    opacity: 0.8,
+    opacity: 0.9,
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
@@ -51,12 +48,16 @@ textCanvas.width = 512;
 textCanvas.height = 256;
 
 // Initialiser le texte
-textContext.font = "30px Arial";
-textContext.fillStyle = "white";
-textContext.textAlign = "center";
-textContext.fillText("Cliquez ici ❤️", textCanvas.width / 2, textCanvas.height / 2);
+function drawInitialText(message) {
+    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
+    textContext.font = "30px Arial";
+    textContext.fillStyle = "white";
+    textContext.textAlign = "center";
+    textContext.fillText(message, textCanvas.width / 2, textCanvas.height / 2);
+}
 
 // Charger la texture du texte
+drawInitialText("Cliquez sur la sphère ❤️");
 const textTexture = new THREE.CanvasTexture(textCanvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
@@ -67,17 +68,17 @@ scene.add(textMesh);
 // Mise à jour du texte au clic
 document.body.addEventListener("click", () => {
     if (romanticMessages.length === 0) {
-        romanticMessages = [...originalMessages];
+        romanticMessages = [...originalMessages]; // Réinitialiser les messages
+        console.log("Les messages ont été réorganisés.");
     }
     const randomIndex = Math.floor(Math.random() * romanticMessages.length);
     const randomMessage = romanticMessages[randomIndex];
     romanticMessages.splice(randomIndex, 1);
 
     // Redessiner le texte sur le canvas
-    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
-    textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2);
-    textTexture.needsUpdate = true; // Mise à jour explicite de la texture
-    console.log("Nouveau message affiché :", randomMessage); // Vérification
+    drawInitialText(randomMessage);
+    textTexture.needsUpdate = true; // Mettre à jour explicitement la texture
+    console.log("Nouveau message affiché :", randomMessage);
 });
 
 // Flocons de neige dans la boule
@@ -109,7 +110,7 @@ const light2 = new THREE.PointLight(0xfff0e0, 0.8, 100);
 light2.position.set(-10, -10, -10);
 scene.add(light2);
 
-// Caméra et animation
+// Position de la caméra et animation
 camera.position.z = 20;
 
 function animate() {
