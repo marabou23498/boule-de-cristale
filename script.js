@@ -37,7 +37,7 @@ const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
 supportMesh.position.set(0, -2, 0);
 scene.add(supportMesh);
 
-// Boule de cristal avec effet verre
+// Boule de cristal
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transmission: 0.85,
@@ -55,7 +55,7 @@ const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
 
-// Texte affiché dans la boule
+// Texte dans la sphère
 const textCanvas = document.createElement("canvas");
 const textContext = textCanvas.getContext("2d");
 textCanvas.width = 512;
@@ -73,10 +73,12 @@ function drawText(message) {
 // Charger la texture du texte
 drawText("Cliquez sur la sphère pour recevoir un message ❤️");
 const textTexture = new THREE.CanvasTexture(textCanvas);
+textTexture.needsUpdate = true;
+
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 2.5); // Position légèrement devant la sphère
+textMesh.position.set(0, 3, 0); // Placer le texte au centre de la sphère
 scene.add(textMesh);
 
 // Mettre à jour le texte au clic
