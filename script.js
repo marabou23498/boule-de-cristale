@@ -64,29 +64,18 @@ function updateColor() {
     colorLight.color = color; // Appliquer la couleur à la lumière
 }
 
-// Canvas pour le texte
-const textCanvas = document.createElement("canvas");
-const textContext = textCanvas.getContext("2d");
-textCanvas.width = 1024;
-textCanvas.height = 512;
-
-// Fonction pour afficher le texte
-function drawText(message) {
-    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
-    textContext.fillStyle = "white";
-    textContext.font = "40px Arial"; // Taille augmentée pour meilleure visibilité
-    textContext.textAlign = "center";
-    textContext.fillText(message, textCanvas.width / 2, textCanvas.height / 2);
-}
-
-// Charger un message initial
-drawText("Cliquez sur la sphère pour recevoir un message ❤️");
-const textTexture = new THREE.CanvasTexture(textCanvas);
-const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
-const textGeometry = new THREE.PlaneGeometry(6, 3); // Ajusté pour la taille de la sphère
-const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 0); // Position dans la sphère
-scene.add(textMesh);
+// Ajouter un texte visible sur le site
+const domText = document.createElement("div");
+domText.style.position = "absolute";
+domText.style.bottom = "20px"; // Texte placé en bas de l'écran
+domText.style.width = "100%";
+domText.style.textAlign = "center";
+domText.style.color = "white";
+domText.style.fontFamily = "Arial, sans-serif";
+domText.style.fontSize = "24px";
+domText.style.textShadow = "2px 2px 5px black";
+domText.innerHTML = "Cliquez sur la sphère pour recevoir un message ❤️";
+document.body.appendChild(domText);
 
 // Mettre à jour le texte au clic
 document.body.addEventListener("click", () => {
@@ -97,9 +86,8 @@ document.body.addEventListener("click", () => {
     const randomMessage = romanticMessages[randomIndex];
     romanticMessages.splice(randomIndex, 1);
 
-    // Mettre à jour la texture du texte
-    drawText(randomMessage);
-    textTexture.needsUpdate = true;
+    // Mettre à jour le texte affiché
+    domText.innerHTML = randomMessage;
     console.log("Nouveau message affiché :", randomMessage);
 });
 
