@@ -59,8 +59,11 @@ const textTexture = new THREE.CanvasTexture(textCanvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 1.5); // Positionner le texte légèrement à l'intérieur de la boule
+textMesh.position.set(0, 3, 2); // Placer le texte légèrement devant la boule pour garantir la visibilité
 scene.add(textMesh);
+
+// DEBUG: Vérifier si le texte est redessiné correctement
+console.log("Initial text:", textContext.getImageData(0, 0, textCanvas.width, textCanvas.height));
 
 // Mettre à jour le texte au clic
 document.body.addEventListener("click", () => {
@@ -75,6 +78,9 @@ document.body.addEventListener("click", () => {
     textContext.clearRect(0, 0, textCanvas.width, textCanvas.height); // Effacer le texte précédent
     textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2); // Dessiner le nouveau texte
     textTexture.needsUpdate = true; // Mettre à jour la texture
+
+    // DEBUG: Vérifier le texte mis à jour
+    console.log("Updated text:", randomMessage);
 });
 
 // Flocons blancs à l'intérieur de la boule
