@@ -8,123 +8,88 @@ let romanticMessages = [
     "Avec toi, tout est magique 🌟",
     "Ton sourire illumine mes jours 🌞",
     "Je t’aime comme les étoiles brillent ✨",
-    // Ajoute jusqu'à 1000 messages ici...
 ];
-
 let originalMessages = [...romanticMessages]; // Backup pour réinitialisation
 
-// Mettre à jour le message romantique
+// Mettre à jour les messages en douceur
 const textElement = document.getElementById("romantic-text");
 
 function updateMessage() {
     if (romanticMessages.length === 0) {
-        romanticMessages = [...originalMessages]; // Réinitialiser
+        romanticMessages = [...originalMessages];
     }
     const randomIndex = Math.floor(Math.random() * romanticMessages.length);
     const randomMessage = romanticMessages[randomIndex];
-    textElement.textContent = randomMessage;
-    romanticMessages.splice(randomIndex, 1); // Retirer le message utilisé
+    textElement.style.opacity = 0; // Cacher le texte
+    setTimeout(() => {
+        textElement.textContent = randomMessage; // Mettre à jour
+        textElement.style.opacity = 1; // Réafficher le texte
+    }, 500);
+    romanticMessages.splice(randomIndex, 1);
 }
 
 // Créer la scène avec Three.js
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Boule de cristal
-const geometry = new THREE.SphereGeometry(5, 32, 32);
-const material = new THREE.MeshPhongMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.7,
-    shininess: 100,
+// Ajouter la texture de la boule de cristal
+const textureLoader = new THREE.TextureLoader();
+const crystalTexture = textureLoader.load('https://img.sellercube.com/uploadfile2/Uploadfile/6/NewProduct/Shoot/803325/0b0da3b8-deb2-474d-be35-e329a872355d.jpg');
+
+const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
+const crystalMaterial = new THREE.MeshPhysicalMaterial({
+    map: crystalTexture,
+    transmission: 0.95,
+    roughness: 0.1,
+    thickness: 1.5,
 });
-const crystalBall = new THREE.Mesh(geometry, material);
+const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 scene.add(crystalBall);
 
-// Lumière
-const light = new THREE.PointLight(0xfff0e0, 1, 100);
-light.position.set(10, 10, 10);
-scene.add(light);
-
-// Sol
-const floorGeometry = new THREE.CylinderGeometry(6, 6, 1, 32);
-const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xd4af37 });
-const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.position.y = -5.5;
-scene.add(floor);
-
-// Particules pour la neige
+// Flocons de neige
 const snowParticles = new THREE.Group();
-scene.add(snowParticles);
-
+const snowTexture = textureLoader.load('https://png.pngtree.com/png-clipart/20221217/ourlarge/pngtree-realistic-falling-snowflakes-snow-flake-png-image_6526793.png');
 for (let i = 0; i < 500; i++) {
-    const snowGeometry = new THREE.SphereGeometry(0.1, 8, 8);
-    const snowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const snowGeometry = new THREE.PlaneGeometry(0.3, 0.3);
+    const snowMaterial = new THREE.MeshBasicMaterial({
+        map: snowTexture,
+        transparent: true,
+    });
     const snowflake = new THREE.Mesh(snowGeometry, snowMaterial);
     snowflake.position.set(
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 10
+        (Math.random() - 0.5) * 20,
+        Math.random() * 10,
+        (Math.random() - 0.5) * 20
     );
+    snowflake.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
     snowParticles.add(snowflake);
 }
+scene.add(snowParticles);
 
-// Variables pour les couleurs
-let colorStep = 0; // Étape pour changer les couleurs
+// Lumières
+const light1 = new THREE.PointLight(0xffffff, 1, 100);
+light1.position.set(10, 10, 10);
+scene.add(light1);
 
-function animateColors() {
-    colorStep += 0.01; // Augmente progressivement
+camera.position.z = 15;
 
-    // Changer l'arrière-plan
-    const r = Math.floor(128 + 128 * Math.sin(colorStep));
-    const g = Math.floor(128 + 128 * Math.sin(colorStep + Math.PI / 2));
-    const b = Math.floor(128 + 128 * Math.sin(colorStep + Math.PI));
-    document.body.style.background = `rgb(${r}, ${g}, ${b})`;
-
-    // Changer la couleur de la boule de cristal
-    crystalBall.material.color.setRGB(
-        0.5 + 0.5 * Math.sin(colorStep),
-        0.5 + 0.5 * Math.sin(colorStep + Math.PI / 3),
-        0.5 + 0.5 * Math.sin(colorStep + (2 * Math.PI) / 3)
-    );
-}
-
-// Animation principale
+// Animation
 function animate() {
     requestAnimationFrame(animate);
 
-    // Faire tourner la boule et animer la neige
-    crystalBall.rotation.y += 0.005;
-    snowParticles.children.forEach((particle) => {
-        particle.position.y -= 0.02;
-        if (particle.position.y < -5) {
-            particle.position.y = 5; // Réinitialise la neige
-        }
+    crystalBall.rotation.y += 0.005; // Rotation de la boule
+    snowParticles.children.forEach((snowflake) => {
+        snowflake.position.y -= 0.02;
+        if (snowflake.position.y < -5) snowflake.position.y = 10;
     });
-
-    // Appeler l'animation des couleurs
-    animateColors();
 
     renderer.render(scene, camera);
 }
-camera.position.z = 15;
 
-// Interaction : Afficher un message sur clic
-crystalBall.userData = { isCrystal: true };
-document.body.addEventListener("click", (event) => {
-    const mouse = new THREE.Vector2(
-        (event.clientX / window.innerWidth) * 2 - 1,
-        -(event.clientY / window.innerHeight) * 2 + 1
-    );
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObject(crystalBall);
-    if (intersects.length > 0) {
-        updateMessage();
-    }
-});
+// Interaction : Changer le message
+document.body.addEventListener('click', () => updateMessage());
 
 animate();
