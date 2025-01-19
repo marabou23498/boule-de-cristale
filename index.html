@@ -1,161 +1,36 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boule de Cristal - Amour Infini</title>
+    <title>Boule de Cristal 3D</title>
     <style>
-      body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #ffdfba, #f5a6c8, #b6c7f2);
-    background-size: 300% 300%;
-    animation: gradient-animation 20s infinite;
-    font-family: 'Arial', sans-serif;
-    overflow: hidden;
-}
-
-@keyframes gradient-animation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.snow-globe {
-    position: relative;
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, #f9f9f9, #dde1e7);
-    border: 10px solid white;
-    border-radius: 50%;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transition: background 3s ease-in-out;
-}
-
-.message {
-    color: #333;
-    font-size: 1.5rem;
-    padding: 20px;
-    animation: fade-in 1s;
-    text-align: center;
-}
-
-@keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.snow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-image: radial-gradient(white 1px, transparent 1px);
-    background-size: 10px 10px;
-    animation: snow-fall 6s infinite linear;
-    pointer-events: none;
-}
-
-@keyframes snow-fall {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(100%); }
-}
-
-/* Responsiveness: */
-@media (max-width: 768px) {
-    .snow-globe {
-        width: 80vw;
-        height: 80vw;
-    }
-
-    .message {
-        font-size: 1.2rem;
-    }
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+        }
+        canvas {
+            display: block;
+        }
+        .overlay-text {
+            position: absolute;
+            bottom: 20%;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body>
-    <div class="snow-globe" id="globe">
-        <div class="snow"></div>
-        <span class="message" id="message">Tu es mon miracle au quotidien.</span>
-    </div>
-
-    <script>
-        // Tableau de 1000 phrases uniques
-        const messages = [
-            "Tu es mon miracle au quotidien.",
-            "Avec toi, chaque jour est une bénédiction.",
-            "Je t’aime plus que tout au monde.",
-            "Tu es ma force et mon inspiration.",
-            "Merci d’être toi, tout simplement.",
-            "À tes côtés, je suis complet.",
-            "Ton sourire illumine ma vie.",
-            "Je suis fier de tout ce que tu accomplis.",
-            "Tu rends chaque instant magique.",
-            "Tu es mon étoile, ma lumière dans l’obscurité.",
-            "Je ferai tout pour ton bonheur.",
-            "Mon amour pour toi grandit chaque jour.",
-            "Tu es mon âme sœur, ma moitié parfaite.",
-            "Je crois en toi et en nous.",
-            "Tu es la personne la plus extraordinaire que je connaisse.",
-            "Rien ne me rend plus heureux que toi.",
-            "Tu es mon plus beau cadeau.",
-            "Avec toi, tout est possible.",
-            "Mon cœur bat pour toi seul.",
-            "Tu rends ma vie tellement belle.",
-            ...Array(980).fill("Tu es unique.").map((msg, i) => ${msg} #${i + 20})
-        ];
-
-        // Clone des messages pour réinitialisation
-        const originalMessages = [...messages];
-
-        // Fonction pour mélanger les phrases
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        // Fonction pour changer uniquement les couleurs
-        function changeColors() {
-            const globe = document.getElementById('globe');
-            globe.style.background = radial-gradient(circle, ${getRandomColor()}, ${getRandomColor()});
-        }
-
-        // Fonction pour changer de message (au clic seulement)
-        function changeMessage() {
-            if (messages.length === 0) {
-                shuffleArray(originalMessages);
-                messages.push(...originalMessages);
-            }
-
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            const randomMessage = messages.splice(randomIndex, 1)[0];
-            document.getElementById('message').textContent = randomMessage;
-        }
-
-        // Fonction pour générer une couleur aléatoire
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-
-        // Changement automatique des couleurs toutes les 5 secondes
-        setInterval(changeColors, 5000);
-
-        // Permet le changement du message au clic
-        document.getElementById('globe').addEventListener('click', changeMessage);
-    </script>
+    <div class="overlay-text" id="romantic-text">Clique sur la boule pour un message ❤️</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
 </body>
-</html­­­­­­­­>
+</html>
