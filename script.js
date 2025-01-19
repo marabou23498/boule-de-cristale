@@ -1,4 +1,4 @@
-// Messages romantiques
+// Messages romantiques (avec accents pris en charge)
 let romanticMessages = [
     "Tu es mon miracle au quotidien ❤️",
     "Chaque jour avec toi est une bénédiction 🥰",
@@ -21,49 +21,56 @@ const backgroundTexture = loader.load('https://wallpaperaccess.com/full/250537.j
     scene.background = backgroundTexture;
 });
 
-// Boule de cristal avec effet verre
+// Boule de cristal avec effet verre ajusté
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.99, // Transparence presque totale (effet verre)
-    roughness: 0, // Surface lisse
+    transmission: 0.95, // Transparence presque totale
+    roughness: 0.05, // Surface légèrement rugueuse pour réduire les reflets excessifs
     thickness: 2, // Épaisseur simulée
     clearcoat: 1.0, // Couche brillante
-    clearcoatRoughness: 0, // Brillance parfaite
-    envMapIntensity: 2, // Intensité des reflets
+    clearcoatRoughness: 0.05, // Légère rugosité pour plus de réalisme
+    envMapIntensity: 1.0, // Intensité des reflets modérée
     reflectivity: 0.5, // Réflexion partielle
-    ior: 1.5, // Indice de réfraction pour un effet de verre réaliste
+    ior: 1.45, // Indice de réfraction ajusté
+    opacity: 0.8, // Laisse passer la lumière
+    transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 scene.add(crystalBall);
 
-// Texte à l'intérieur de la boule
-const fontLoader = new THREE.FontLoader();
-fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-    const textGeometry = new THREE.TextGeometry("Cliquez ici ❤️", {
-        font: font,
-        size: 0.5,
-        height: 0.05,
-    });
-    const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x999999 });
-    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-    textMesh.position.set(-2.5, 0, 3); // Position dans la boule
-    scene.add(textMesh);
+// Texte dans la boule (solution sans problème d'accents)
+const textCanvas = document.createElement("canvas");
+const textContext = textCanvas.getContext("2d");
 
-    // Mise à jour du texte au clic
-    document.body.addEventListener('click', () => {
-        if (romanticMessages.length === 0) {
-            romanticMessages = [...originalMessages];
-        }
-        const randomIndex = Math.floor(Math.random() * romanticMessages.length);
-        const randomMessage = romanticMessages[randomIndex];
-        romanticMessages.splice(randomIndex, 1);
-        textMesh.geometry.dispose(); // Supprimer l'ancien texte
-        textMesh.geometry = new THREE.TextGeometry(randomMessage, {
-            font: font,
-            size: 0.5,
-            height: 0.05,
-        });
-    });
+// Définir la taille du texte
+textCanvas.width = 512;
+textCanvas.height = 256;
+textContext.font = "30px Arial";
+textContext.fillStyle = "white";
+textContext.textAlign = "center";
+textContext.fillText("Cliquez ici ❤️", textCanvas.width / 2, textCanvas.height / 2);
+
+// Charger la texture du texte
+const textTexture = new THREE.CanvasTexture(textCanvas);
+const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
+const textGeometry = new THREE.PlaneGeometry(4, 2);
+const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+textMesh.position.set(0, 0, 3); // Positionner à l'intérieur de la boule
+scene.add(textMesh);
+
+// Mettre à jour le texte au clic
+document.body.addEventListener("click", () => {
+    if (romanticMessages.length === 0) {
+        romanticMessages = [...originalMessages];
+    }
+    const randomIndex = Math.floor(Math.random() * romanticMessages.length);
+    const randomMessage = romanticMessages[randomIndex];
+    romanticMessages.splice(randomIndex, 1);
+
+    // Redessiner le texte sur le canvas
+    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
+    textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2);
+    textTexture.needsUpdate = true; // Mettre à jour la texture
 });
 
 // Flocons blancs à l'intérieur de la boule
@@ -88,7 +95,7 @@ for (let i = 0; i < 500; i++) {
 scene.add(snowParticles);
 
 // Lumières
-const light1 = new THREE.PointLight(0xffffff, 1.5, 100);
+const light1 = new THREE.PointLight(0xffffff, 1.0, 100);
 light1.position.set(10, 10, 10);
 scene.add(light1);
 
