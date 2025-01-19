@@ -59,7 +59,7 @@ const textTexture = new THREE.CanvasTexture(textCanvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 3.5); // Positionner juste devant la boule
+textMesh.position.set(0, 3, 1.5); // Positionner le texte légèrement à l'intérieur de la boule
 scene.add(textMesh);
 
 // Mettre à jour le texte au clic
@@ -72,8 +72,8 @@ document.body.addEventListener("click", () => {
     romanticMessages.splice(randomIndex, 1);
 
     // Redessiner le texte sur le canvas
-    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
-    textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2);
+    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height); // Effacer le texte précédent
+    textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2); // Dessiner le nouveau texte
     textTexture.needsUpdate = true; // Mettre à jour la texture
 });
 
@@ -130,4 +130,4 @@ window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-})
+});
