@@ -15,6 +15,12 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// Fond d'écran
+const loader = new THREE.TextureLoader();
+const backgroundTexture = loader.load("https://wallpaperaccess.com/full/250537.jpg", () => {
+    scene.background = backgroundTexture;
+});
+
 // Support pour la boule de cristal
 const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
 const supportMaterial = new THREE.MeshStandardMaterial({
@@ -23,28 +29,28 @@ const supportMaterial = new THREE.MeshStandardMaterial({
     roughness: 0.2,
 });
 const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
-supportMesh.position.set(0, -2, 0); // Placer le support au centre de la scène
+supportMesh.position.set(0, -2, 0); // Placer le support
 scene.add(supportMesh);
 
 // Boule de cristal avec effet verre ajusté
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.85, // Réduire la transparence
-    roughness: 0.1, // Légère rugosité pour capturer les lumières
+    transmission: 0.85,
+    roughness: 0.1,
     thickness: 2,
     clearcoat: 1.0,
     clearcoatRoughness: 0.02,
-    envMapIntensity: 2.0, // Renforcer les reflets
-    reflectivity: 0.7, // Réflexion plus prononcée
+    envMapIntensity: 2.0,
+    reflectivity: 0.7,
     ior: 1.45,
-    opacity: 0.9, // Augmenter l'opacité pour plus de visibilité
+    opacity: 0.9,
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
-crystalBall.position.set(0, 3, 0); // Centrer la boule au-dessus du support
+crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
 
-// Texte dans la boule (solution avec un canvas pour afficher les accents)
+// Texte affiché dans la boule (via un canvas)
 const textCanvas = document.createElement("canvas");
 const textContext = textCanvas.getContext("2d");
 textCanvas.width = 512;
@@ -56,41 +62,40 @@ textContext.fillText("Cliquez ici ❤️", textCanvas.width / 2, textCanvas.heig
 
 // Charger la texture du texte
 const textTexture = new THREE.CanvasTexture(textCanvas);
+textTexture.needsUpdate = true; // Assurer la mise à jour de la texture
+
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 2); // Placer le texte légèrement devant la boule pour garantir la visibilité
+textMesh.position.set(0, 3, 2.5); // Position devant la boule
 scene.add(textMesh);
 
-// DEBUG: Vérifier si le texte est redessiné correctement
-console.log("Initial text:", textContext.getImageData(0, 0, textCanvas.width, textCanvas.height));
+// Vérification initiale de la texture
+console.log("Texte initial chargé :", textTexture);
 
-// Mettre à jour le texte au clic
+// Gestion des clics pour changer le texte
 document.body.addEventListener("click", () => {
     if (romanticMessages.length === 0) {
-        romanticMessages = [...originalMessages];
+        romanticMessages = [...originalMessages]; // Recharger les messages
     }
     const randomIndex = Math.floor(Math.random() * romanticMessages.length);
     const randomMessage = romanticMessages[randomIndex];
     romanticMessages.splice(randomIndex, 1);
 
     // Redessiner le texte sur le canvas
-    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height); // Effacer le texte précédent
-    textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2); // Dessiner le nouveau texte
+    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
+    textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2);
     textTexture.needsUpdate = true; // Mettre à jour la texture
-
-    // DEBUG: Vérifier le texte mis à jour
-    console.log("Updated text:", randomMessage);
+    console.log("Nouveau message affiché :", randomMessage); // Debug
 });
 
-// Flocons blancs à l'intérieur de la boule
+// Flocons blancs dans la boule
 const snowParticles = new THREE.Group();
 for (let i = 0; i < 500; i++) {
-    const snowGeometry = new THREE.SphereGeometry(0.05, 8, 8); // Petites sphères pour les flocons
-    const snowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // Blanc pur
+    const snowGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+    const snowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const snowflake = new THREE.Mesh(snowGeometry, snowMaterial);
 
-    // Positionner les flocons aléatoirement dans la boule
     const radius = 4.5;
     let x, y, z;
     do {
@@ -99,22 +104,22 @@ for (let i = 0; i < 500; i++) {
         z = (Math.random() - 0.5) * 10;
     } while (Math.sqrt(x * x + y * y + z * z) > radius);
 
-    snowflake.position.set(x, y + 3, z); // Ajuster pour que les flocons soient dans la boule
+    snowflake.position.set(x, y + 3, z);
     snowParticles.add(snowflake);
 }
 scene.add(snowParticles);
 
 // Lumières
-const light1 = new THREE.PointLight(0xffffff, 1.2, 100); // Lumière principale plus intense
+const light1 = new THREE.PointLight(0xffffff, 1.2, 100);
 light1.position.set(10, 10, 10);
 scene.add(light1);
 
-const light2 = new THREE.PointLight(0xfff0e0, 0.8, 100); // Lumière secondaire chaude
+const light2 = new THREE.PointLight(0xfff0e0, 0.8, 100);
 light2.position.set(-10, -10, -10);
 scene.add(light2);
 
 // Caméra et animation
-camera.position.z = 20; // Ajuster pour un bon rendu centré
+camera.position.z = 20;
 
 function animate() {
     requestAnimationFrame(animate);
@@ -123,7 +128,7 @@ function animate() {
     crystalBall.rotation.y += 0.002;
     snowParticles.children.forEach((snowflake) => {
         snowflake.position.y -= 0.02;
-        if (snowflake.position.y < -2) snowflake.position.y = 7; // Réinitialiser
+        if (snowflake.position.y < -2) snowflake.position.y = 7;
     });
 
     renderer.render(scene, camera);
@@ -131,7 +136,7 @@ function animate() {
 
 animate();
 
-// Ajuster la scène lorsque la fenêtre est redimensionnée
+// Ajustement lors du redimensionnement
 window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
