@@ -31,10 +31,10 @@ const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
 supportMesh.position.set(0, -2, 0);
 scene.add(supportMesh);
 
-// Boule de cristal
+// Boule de cristal avec effet verre
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.6, // Réduction de la transparence
+    transmission: 0.6,
     roughness: 0.1,
     thickness: 2,
     clearcoat: 1.0,
@@ -42,64 +42,37 @@ const crystalMaterial = new THREE.MeshPhysicalMaterial({
     envMapIntensity: 1.5,
     reflectivity: 0.5,
     ior: 1.4,
-    opacity: 0.95, // Plus opaque pour contraster avec le fond
+    opacity: 0.95,
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
 
-// Ajouter un effet de lumière colorée à l'intérieur de la sphère
-const colorLight = new THREE.PointLight(0xffffff, 2, 50);
-colorLight.position.set(0, 3, 0);
-scene.add(colorLight);
-
-// Fonction pour animer les couleurs
-let colorChangeSpeed = 0.01; // Vitesse du changement de couleur
-let hue = 0; // Teinte de la couleur (0-1)
-function updateColor() {
-    hue += colorChangeSpeed;
-    if (hue > 1) hue = 0; // Réinitialiser la teinte
-    const color = new THREE.Color().setHSL(hue, 0.7, 0.5); // Créer une couleur HSL
-    colorLight.color = color; // Appliquer la couleur à la lumière
-}
-
-// Texte affiché sur le support
-const textCanvas = document.createElement("canvas");
-const textContext = textCanvas.getContext("2d");
-textCanvas.width = 512;
-textCanvas.height = 256;
-
-// Fonction pour afficher le texte
-function drawText(message) {
-    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
-    textContext.font = "30px Arial"; // Taille augmentée pour meilleure lisibilité
-    textContext.fillStyle = "white";
-    textContext.textAlign = "center";
-    textContext.fillText(message, textCanvas.width / 2, textCanvas.height / 2);
-}
-
-// Charger la texture du texte
-drawText("Cliquez sur la sphère pour recevoir un message ❤️");
-const textTexture = new THREE.CanvasTexture(textCanvas);
-const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
-const textGeometry = new THREE.PlaneGeometry(6, 2);
-const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, -1.5, 0.01); // Position légèrement au-dessus du support
-scene.add(textMesh);
+// Ajouter un texte visible sur le site
+const domText = document.createElement("div");
+domText.style.position = "absolute";
+domText.style.bottom = "20px"; // Texte placé en bas de l'écran
+domText.style.width = "100%";
+domText.style.textAlign = "center";
+domText.style.color = "white";
+domText.style.fontFamily = "Arial, sans-serif";
+domText.style.fontSize = "24px";
+domText.style.textShadow = "2px 2px 5px black";
+domText.innerHTML = "Cliquez sur la sphère pour recevoir un message ❤️";
+document.body.appendChild(domText);
 
 // Mettre à jour le texte au clic
 document.body.addEventListener("click", () => {
     if (romanticMessages.length === 0) {
-        romanticMessages = [...originalMessages]; // Réinitialiser la liste des messages
+        romanticMessages = [...originalMessages]; // Réinitialiser les messages
     }
     const randomIndex = Math.floor(Math.random() * romanticMessages.length);
     const randomMessage = romanticMessages[randomIndex];
     romanticMessages.splice(randomIndex, 1);
 
     // Mettre à jour le texte affiché
-    drawText(randomMessage);
-    textTexture.needsUpdate = true;
+    domText.innerHTML = randomMessage;
     console.log("Nouveau message affiché :", randomMessage);
 });
 
@@ -138,14 +111,12 @@ camera.position.z = 20;
 function animate() {
     requestAnimationFrame(animate);
 
-    // Faire tourner la boule, déplacer les flocons et mettre à jour la couleur
+    // Faire tourner la boule et déplacer les flocons
     crystalBall.rotation.y += 0.002;
     snowParticles.children.forEach((snowflake) => {
         snowflake.position.y -= 0.02;
         if (snowflake.position.y < -2) snowflake.position.y = 7;
     });
-
-    updateColor(); // Changer les couleurs dans la sphère
 
     renderer.render(scene, camera);
 }
