@@ -36,7 +36,7 @@ const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
-crystalBall.position.set(0, 3, 0); // Élever la boule pour la placer sur le support
+crystalBall.position.set(0, 5, 0); // Élever la boule pour la placer sur le support
 scene.add(crystalBall);
 
 // Support pour la boule de cristal
@@ -47,7 +47,7 @@ const supportMaterial = new THREE.MeshStandardMaterial({
     roughness: 0.2,
 });
 const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
-supportMesh.position.set(0, 1, 0); // Placer sous la boule
+supportMesh.position.set(0, 2, 0); // Placer correctement sous la boule
 scene.add(supportMesh);
 
 // Texte dans la boule (solution avec un canvas pour afficher les accents)
@@ -65,7 +65,7 @@ const textTexture = new THREE.CanvasTexture(textCanvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 3); // Placer légèrement devant la boule
+textMesh.position.set(0, 5, 3); // Positionner juste devant la boule
 scene.add(textMesh);
 
 // Mettre à jour le texte au clic
@@ -99,7 +99,7 @@ for (let i = 0; i < 500; i++) {
         z = (Math.random() - 0.5) * 10;
     } while (Math.sqrt(x * x + y * y + z * z) > radius);
 
-    snowflake.position.set(x, y + 3, z); // Ajuster pour que les flocons soient dans la boule
+    snowflake.position.set(x, y + 5, z); // Ajuster pour que les flocons soient dans la boule
     snowParticles.add(snowflake);
 }
 scene.add(snowParticles);
@@ -114,7 +114,7 @@ light2.position.set(-10, -10, -10);
 scene.add(light2);
 
 // Caméra et animation
-camera.position.z = 15;
+camera.position.z = 20;
 
 function animate() {
     requestAnimationFrame(animate);
@@ -123,7 +123,7 @@ function animate() {
     crystalBall.rotation.y += 0.002;
     snowParticles.children.forEach((snowflake) => {
         snowflake.position.y -= 0.02;
-        if (snowflake.position.y < -1.5) snowflake.position.y = 4.5; // Réinitialiser
+        if (snowflake.position.y < 0) snowflake.position.y = 9; // Réinitialiser
     });
 
     renderer.render(scene, camera);
