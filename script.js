@@ -10,7 +10,7 @@ let originalMessages = [...romanticMessages];
 
 // Créer la scène
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000); // Champ de vision réduit
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -20,6 +20,17 @@ const loader = new THREE.TextureLoader();
 const backgroundTexture = loader.load('https://wallpaperaccess.com/full/250537.jpg', () => {
     scene.background = backgroundTexture;
 });
+
+// Support pour la boule de cristal
+const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
+const supportMaterial = new THREE.MeshStandardMaterial({
+    color: 0xd4af37, // Doré
+    metalness: 0.8,
+    roughness: 0.2,
+});
+const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
+supportMesh.position.set(0, 1, 0); // Placer correctement le support
+scene.add(supportMesh);
 
 // Boule de cristal avec effet verre ajusté
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
@@ -36,19 +47,8 @@ const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
-crystalBall.position.set(0, 5, 0); // Élever la boule pour la placer sur le support
+crystalBall.position.set(0, 5, 0); // Ajuster la boule au-dessus du support
 scene.add(crystalBall);
-
-// Support pour la boule de cristal
-const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
-const supportMaterial = new THREE.MeshStandardMaterial({
-    color: 0xd4af37, // Doré
-    metalness: 0.8,
-    roughness: 0.2,
-});
-const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
-supportMesh.position.set(0, 2, 0); // Placer correctement sous la boule
-scene.add(supportMesh);
 
 // Texte dans la boule (solution avec un canvas pour afficher les accents)
 const textCanvas = document.createElement("canvas");
@@ -65,7 +65,7 @@ const textTexture = new THREE.CanvasTexture(textCanvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 5, 3); // Positionner juste devant la boule
+textMesh.position.set(0, 5, 3.5); // Positionner juste devant la boule
 scene.add(textMesh);
 
 // Mettre à jour le texte au clic
@@ -114,7 +114,7 @@ light2.position.set(-10, -10, -10);
 scene.add(light2);
 
 // Caméra et animation
-camera.position.z = 20;
+camera.position.z = 18; // Avancer la caméra pour un effet plus large
 
 function animate() {
     requestAnimationFrame(animate);
