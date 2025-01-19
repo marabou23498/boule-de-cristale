@@ -11,7 +11,7 @@ let originalMessages = [...romanticMessages];
 // Créer la scène
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Permet la transparence
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -21,28 +21,30 @@ const backgroundTexture = loader.load('https://wallpaperaccess.com/full/250537.j
     scene.background = backgroundTexture;
 });
 
-// Boule de cristal transparente
+// Boule de cristal avec effet verre
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.95, // Transparence presque totale
-    roughness: 0.1, // Surface légèrement rugueuse
-    thickness: 1.5, // Épaisseur simulée
-    clearcoat: 1.0, // Effet brillant
-    clearcoatRoughness: 0.1,
-    envMapIntensity: 1.5, // Intensité des reflets
+    transmission: 0.99, // Transparence presque totale (effet verre)
+    roughness: 0, // Surface lisse
+    thickness: 2, // Épaisseur simulée
+    clearcoat: 1.0, // Couche brillante
+    clearcoatRoughness: 0, // Brillance parfaite
+    envMapIntensity: 2, // Intensité des reflets
+    reflectivity: 0.5, // Réflexion partielle
+    ior: 1.5, // Indice de réfraction pour un effet de verre réaliste
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 scene.add(crystalBall);
 
-// Texte dans la boule
+// Texte à l'intérieur de la boule
 const fontLoader = new THREE.FontLoader();
 fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
     const textGeometry = new THREE.TextGeometry("Cliquez ici ❤️", {
         font: font,
         size: 0.5,
-        height: 0.1,
+        height: 0.05,
     });
-    const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x888888 });
+    const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x999999 });
     const textMesh = new THREE.Mesh(textGeometry, textMaterial);
     textMesh.position.set(-2.5, 0, 3); // Position dans la boule
     scene.add(textMesh);
@@ -59,21 +61,16 @@ fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.
         textMesh.geometry = new THREE.TextGeometry(randomMessage, {
             font: font,
             size: 0.5,
-            height: 0.1,
+            height: 0.05,
         });
     });
 });
 
-// Flocons à l'intérieur de la boule
+// Flocons blancs à l'intérieur de la boule
 const snowParticles = new THREE.Group();
-const snowTexture = loader.load('https://png.pngtree.com/png-clipart/20221217/ourlarge/pngtree-realistic-falling-snowflakes-snow-flake-png-image_6526793.png');
 for (let i = 0; i < 500; i++) {
-    const snowGeometry = new THREE.PlaneGeometry(0.1, 0.1);
-    const snowMaterial = new THREE.MeshBasicMaterial({
-        map: snowTexture,
-        transparent: true,
-        opacity: 0.8,
-    });
+    const snowGeometry = new THREE.SphereGeometry(0.05, 8, 8); // Petites sphères pour les flocons
+    const snowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // Blanc pur
     const snowflake = new THREE.Mesh(snowGeometry, snowMaterial);
 
     // Positionner les flocons aléatoirement dans la boule
@@ -115,4 +112,4 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-animate();
+animate()
