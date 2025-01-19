@@ -10,16 +10,10 @@ let originalMessages = [...romanticMessages];
 
 // Créer la scène
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000); // Champ de vision réduit
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-
-// Ajouter un fond d'écran (galaxie)
-const loader = new THREE.TextureLoader();
-const backgroundTexture = loader.load('https://wallpaperaccess.com/full/250537.jpg', () => {
-    scene.background = backgroundTexture;
-});
 
 // Support pour la boule de cristal
 const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
@@ -29,25 +23,25 @@ const supportMaterial = new THREE.MeshStandardMaterial({
     roughness: 0.2,
 });
 const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
-supportMesh.position.set(0, 1, 0); // Placer correctement le support
+supportMesh.position.set(0, -2, 0); // Placer le support au centre de la scène
 scene.add(supportMesh);
 
 // Boule de cristal avec effet verre ajusté
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.95,
-    roughness: 0.05,
+    transmission: 0.85, // Réduire la transparence
+    roughness: 0.1, // Légère rugosité pour capturer les lumières
     thickness: 2,
     clearcoat: 1.0,
-    clearcoatRoughness: 0.05,
-    envMapIntensity: 1.0,
-    reflectivity: 0.5,
+    clearcoatRoughness: 0.02,
+    envMapIntensity: 2.0, // Renforcer les reflets
+    reflectivity: 0.7, // Réflexion plus prononcée
     ior: 1.45,
-    opacity: 0.8,
+    opacity: 0.9, // Augmenter l'opacité pour plus de visibilité
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
-crystalBall.position.set(0, 5, 0); // Ajuster la boule au-dessus du support
+crystalBall.position.set(0, 3, 0); // Centrer la boule au-dessus du support
 scene.add(crystalBall);
 
 // Texte dans la boule (solution avec un canvas pour afficher les accents)
@@ -65,7 +59,7 @@ const textTexture = new THREE.CanvasTexture(textCanvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 5, 3.5); // Positionner juste devant la boule
+textMesh.position.set(0, 3, 3.5); // Positionner juste devant la boule
 scene.add(textMesh);
 
 // Mettre à jour le texte au clic
@@ -99,22 +93,22 @@ for (let i = 0; i < 500; i++) {
         z = (Math.random() - 0.5) * 10;
     } while (Math.sqrt(x * x + y * y + z * z) > radius);
 
-    snowflake.position.set(x, y + 5, z); // Ajuster pour que les flocons soient dans la boule
+    snowflake.position.set(x, y + 3, z); // Ajuster pour que les flocons soient dans la boule
     snowParticles.add(snowflake);
 }
 scene.add(snowParticles);
 
 // Lumières
-const light1 = new THREE.PointLight(0xffffff, 1.0, 100);
+const light1 = new THREE.PointLight(0xffffff, 1.2, 100); // Lumière principale plus intense
 light1.position.set(10, 10, 10);
 scene.add(light1);
 
-const light2 = new THREE.PointLight(0xfff0e0, 0.5, 100);
+const light2 = new THREE.PointLight(0xfff0e0, 0.8, 100); // Lumière secondaire chaude
 light2.position.set(-10, -10, -10);
 scene.add(light2);
 
 // Caméra et animation
-camera.position.z = 18; // Avancer la caméra pour un effet plus large
+camera.position.z = 20; // Ajuster pour un bon rendu centré
 
 function animate() {
     requestAnimationFrame(animate);
@@ -123,10 +117,17 @@ function animate() {
     crystalBall.rotation.y += 0.002;
     snowParticles.children.forEach((snowflake) => {
         snowflake.position.y -= 0.02;
-        if (snowflake.position.y < 0) snowflake.position.y = 9; // Réinitialiser
+        if (snowflake.position.y < -2) snowflake.position.y = 7; // Réinitialiser
     });
 
     renderer.render(scene, camera);
 }
 
 animate();
+
+// Ajuster la scène lorsque la fenêtre est redimensionnée
+window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+})
