@@ -15,12 +15,6 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Ajouter un fond d'écran
-const loader = new THREE.TextureLoader();
-loader.load("https://wallpaperaccess.com/full/250537.jpg", (texture) => {
-    scene.background = texture;
-});
-
 // Support pour la boule de cristal
 const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
 const supportMaterial = new THREE.MeshStandardMaterial({
@@ -32,7 +26,7 @@ const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
 supportMesh.position.set(0, -2, 0);
 scene.add(supportMesh);
 
-// Boule de cristal avec effet verre
+// Boule de cristal avec effet verre ajusté
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transmission: 0.85,
@@ -50,7 +44,7 @@ const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
 
-// Texte à afficher dans la boule
+// Texte affiché dans la boule (via un canvas)
 const textCanvas = document.createElement("canvas");
 const textContext = textCanvas.getContext("2d");
 textCanvas.width = 512;
@@ -83,7 +77,6 @@ document.body.addEventListener("click", () => {
     textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
     textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2);
     textTexture.needsUpdate = true; // Mise à jour explicite
-    console.log("Nouveau message affiché :", randomMessage);
 });
 
 // Flocons de neige dans la boule
