@@ -34,20 +34,35 @@ scene.add(supportMesh);
 // Boule de cristal
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.85,
+    transmission: 0.6, // Réduction de la transparence
     roughness: 0.1,
     thickness: 2,
     clearcoat: 1.0,
     clearcoatRoughness: 0.02,
-    envMapIntensity: 2.0,
-    reflectivity: 0.7,
-    ior: 1.45,
-    opacity: 0.9,
+    envMapIntensity: 1.5,
+    reflectivity: 0.5,
+    ior: 1.4,
+    opacity: 0.95, // Plus opaque pour contraster avec le fond
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
+
+// Ajouter un effet de lumière colorée à l'intérieur de la sphère
+const colorLight = new THREE.PointLight(0xffffff, 2, 50);
+colorLight.position.set(0, 3, 0);
+scene.add(colorLight);
+
+// Fonction pour animer les couleurs
+let colorChangeSpeed = 0.01; // Vitesse du changement de couleur
+let hue = 0; // Teinte de la couleur (0-1)
+function updateColor() {
+    hue += colorChangeSpeed;
+    if (hue > 1) hue = 0; // Réinitialiser la teinte
+    const color = new THREE.Color().setHSL(hue, 0.7, 0.5); // Créer une couleur HSL
+    colorLight.color = color; // Appliquer la couleur à la lumière
+}
 
 // Texte affiché sur le support
 const textCanvas = document.createElement("canvas");
@@ -58,7 +73,7 @@ textCanvas.height = 256;
 // Fonction pour afficher le texte
 function drawText(message) {
     textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
-    textContext.font = "20px Arial";
+    textContext.font = "30px Arial"; // Taille augmentée pour meilleure lisibilité
     textContext.fillStyle = "white";
     textContext.textAlign = "center";
     textContext.fillText(message, textCanvas.width / 2, textCanvas.height / 2);
@@ -123,12 +138,14 @@ camera.position.z = 20;
 function animate() {
     requestAnimationFrame(animate);
 
-    // Faire tourner la boule et déplacer les flocons
+    // Faire tourner la boule, déplacer les flocons et mettre à jour la couleur
     crystalBall.rotation.y += 0.002;
     snowParticles.children.forEach((snowflake) => {
         snowflake.position.y -= 0.02;
         if (snowflake.position.y < -2) snowflake.position.y = 7;
     });
+
+    updateColor(); // Changer les couleurs dans la sphère
 
     renderer.render(scene, camera);
 }
