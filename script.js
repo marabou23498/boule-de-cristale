@@ -20,20 +20,6 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Ajouter un nouveau fond d'écran
-const loader = new THREE.TextureLoader();
-loader.load(
-    "https://wallpaperaccess.com/full/250561.jpg", // Nouveau lien vers l'image
-    (texture) => {
-        scene.background = texture;
-        console.log("Fond d'écran chargé avec succès.");
-    },
-    undefined,
-    (error) => {
-        console.error("Erreur lors du chargement du fond d'écran :", error);
-    }
-);
-
 // Support pour la boule de cristal
 const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
 const supportMaterial = new THREE.MeshStandardMaterial({
@@ -45,7 +31,7 @@ const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
 supportMesh.position.set(0, -2, 0);
 scene.add(supportMesh);
 
-// Boule de cristal avec effet verre
+// Boule de cristal
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transmission: 0.85,
