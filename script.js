@@ -49,18 +49,44 @@ const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
 
-// Ajouter un texte visible sur le site
-const domText = document.createElement("div");
-domText.style.position = "absolute";
-domText.style.bottom = "20px"; // Texte placé en bas de l'écran
-domText.style.width = "100%";
-domText.style.textAlign = "center";
-domText.style.color = "white";
-domText.style.fontFamily = "Arial, sans-serif";
-domText.style.fontSize = "24px";
-domText.style.textShadow = "2px 2px 5px black";
-domText.innerHTML = "Cliquez sur la sphère pour recevoir un message ❤️";
-document.body.appendChild(domText);
+// Ajouter un effet de lumière colorée à l'intérieur de la sphère
+const colorLight = new THREE.PointLight(0xffffff, 2, 50);
+colorLight.position.set(0, 3, 0);
+scene.add(colorLight);
+
+// Fonction pour animer les couleurs
+let colorChangeSpeed = 0.01; // Vitesse du changement de couleur
+let hue = 0; // Teinte de la couleur (0-1)
+function updateColor() {
+    hue += colorChangeSpeed;
+    if (hue > 1) hue = 0; // Réinitialiser la teinte
+    const color = new THREE.Color().setHSL(hue, 0.7, 0.5); // Créer une couleur HSL
+    colorLight.color = color; // Appliquer la couleur à la lumière
+}
+
+// Canvas pour le texte
+const textCanvas = document.createElement("canvas");
+const textContext = textCanvas.getContext("2d");
+textCanvas.width = 1024;
+textCanvas.height = 512;
+
+// Fonction pour afficher le texte
+function drawText(message) {
+    textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
+    textContext.fillStyle = "white";
+    textContext.font = "40px Arial"; // Taille augmentée pour meilleure visibilité
+    textContext.textAlign = "center";
+    textContext.fillText(message, textCanvas.width / 2, textCanvas.height / 2);
+}
+
+// Charger un message initial
+drawText("Cliquez sur la sphère pour recevoir un message ❤️");
+const textTexture = new THREE.CanvasTexture(textCanvas);
+const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
+const textGeometry = new THREE.PlaneGeometry(6, 3); // Ajusté pour la taille de la sphère
+const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+textMesh.position.set(0, 3, 0); // Position dans la sphère
+scene.add(textMesh);
 
 // Mettre à jour le texte au clic
 document.body.addEventListener("click", () => {
@@ -71,8 +97,9 @@ document.body.addEventListener("click", () => {
     const randomMessage = romanticMessages[randomIndex];
     romanticMessages.splice(randomIndex, 1);
 
-    // Mettre à jour le texte affiché
-    domText.innerHTML = randomMessage;
+    // Mettre à jour la texture du texte
+    drawText(randomMessage);
+    textTexture.needsUpdate = true;
     console.log("Nouveau message affiché :", randomMessage);
 });
 
@@ -117,6 +144,8 @@ function animate() {
         snowflake.position.y -= 0.02;
         if (snowflake.position.y < -2) snowflake.position.y = 7;
     });
+
+    updateColor(); // Changer les couleurs dans la sphère
 
     renderer.render(scene, camera);
 }
