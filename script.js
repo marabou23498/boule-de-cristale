@@ -1,4 +1,4 @@
-// Messages romantiques (avec accents pris en charge)
+// Messages romantiques
 let romanticMessages = [
     "Tu es mon miracle au quotidien ❤️",
     "Chaque jour avec toi est une bénédiction 🥰",
@@ -24,25 +24,35 @@ const backgroundTexture = loader.load('https://wallpaperaccess.com/full/250537.j
 // Boule de cristal avec effet verre ajusté
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.95, // Transparence presque totale
-    roughness: 0.05, // Surface légèrement rugueuse pour réduire les reflets excessifs
-    thickness: 2, // Épaisseur simulée
-    clearcoat: 1.0, // Couche brillante
-    clearcoatRoughness: 0.05, // Légère rugosité pour plus de réalisme
-    envMapIntensity: 1.0, // Intensité des reflets modérée
-    reflectivity: 0.5, // Réflexion partielle
-    ior: 1.45, // Indice de réfraction ajusté
-    opacity: 0.8, // Laisse passer la lumière
+    transmission: 0.95,
+    roughness: 0.05,
+    thickness: 2,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.05,
+    envMapIntensity: 1.0,
+    reflectivity: 0.5,
+    ior: 1.45,
+    opacity: 0.8,
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
+crystalBall.position.set(0, 3, 0); // Élever la boule pour la placer sur le support
 scene.add(crystalBall);
 
-// Texte dans la boule (solution sans problème d'accents)
+// Support pour la boule de cristal
+const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
+const supportMaterial = new THREE.MeshStandardMaterial({
+    color: 0xd4af37, // Doré
+    metalness: 0.8,
+    roughness: 0.2,
+});
+const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
+supportMesh.position.set(0, 1, 0); // Placer sous la boule
+scene.add(supportMesh);
+
+// Texte dans la boule (solution avec un canvas pour afficher les accents)
 const textCanvas = document.createElement("canvas");
 const textContext = textCanvas.getContext("2d");
-
-// Définir la taille du texte
 textCanvas.width = 512;
 textCanvas.height = 256;
 textContext.font = "30px Arial";
@@ -55,7 +65,7 @@ const textTexture = new THREE.CanvasTexture(textCanvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 0, 3); // Positionner à l'intérieur de la boule
+textMesh.position.set(0, 3, 3); // Placer légèrement devant la boule
 scene.add(textMesh);
 
 // Mettre à jour le texte au clic
@@ -89,7 +99,7 @@ for (let i = 0; i < 500; i++) {
         z = (Math.random() - 0.5) * 10;
     } while (Math.sqrt(x * x + y * y + z * z) > radius);
 
-    snowflake.position.set(x, y, z);
+    snowflake.position.set(x, y + 3, z); // Ajuster pour que les flocons soient dans la boule
     snowParticles.add(snowflake);
 }
 scene.add(snowParticles);
@@ -113,10 +123,10 @@ function animate() {
     crystalBall.rotation.y += 0.002;
     snowParticles.children.forEach((snowflake) => {
         snowflake.position.y -= 0.02;
-        if (snowflake.position.y < -4.5) snowflake.position.y = 4.5; // Réinitialiser
+        if (snowflake.position.y < -1.5) snowflake.position.y = 4.5; // Réinitialiser
     });
 
     renderer.render(scene, camera);
 }
 
-animate()
+animate();
