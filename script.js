@@ -20,7 +20,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Ajouter un nouveau fond d'écran (forcer le chargement)
+// Ajouter un nouveau fond d'écran
 const loader = new THREE.TextureLoader();
 loader.load(
     "https://wallpaperaccess.com/full/250561.jpg", // Nouveau lien vers l'image
