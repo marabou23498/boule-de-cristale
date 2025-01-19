@@ -16,23 +16,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Fond d'écran
-const loader = new THREE.TextureLoader();
-const backgroundTexture = loader.load("https://wallpaperaccess.com/full/250537.jpg", () => {
-    scene.background = backgroundTexture;
-});
+scene.background = new THREE.Color(0x000000); // Simple fond noir pour diagnostic
 
-// Support pour la boule de cristal
-const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
-const supportMaterial = new THREE.MeshStandardMaterial({
-    color: 0xd4af37, // Doré
-    metalness: 0.8,
-    roughness: 0.2,
-});
-const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
-supportMesh.position.set(0, -2, 0); // Placer le support
-scene.add(supportMesh);
-
-// Boule de cristal avec effet verre ajusté
+// Boule de cristal
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transmission: 0.85,
@@ -47,14 +33,16 @@ const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
-crystalBall.position.set(0, 3, 0);
+crystalBall.position.set(0, 3, 0); // Positionner la boule au centre
 scene.add(crystalBall);
 
-// Texte affiché dans la boule (via un canvas)
+// Texte dans la boule
 const textCanvas = document.createElement("canvas");
 const textContext = textCanvas.getContext("2d");
 textCanvas.width = 512;
 textCanvas.height = 256;
+
+// Configuration initiale du texte
 textContext.font = "30px Arial";
 textContext.fillStyle = "white";
 textContext.textAlign = "center";
@@ -62,21 +50,21 @@ textContext.fillText("Cliquez ici ❤️", textCanvas.width / 2, textCanvas.heig
 
 // Charger la texture du texte
 const textTexture = new THREE.CanvasTexture(textCanvas);
-textTexture.needsUpdate = true; // Assurer la mise à jour de la texture
+textTexture.needsUpdate = true;
 
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
-const textGeometry = new THREE.PlaneGeometry(4, 2);
+const textGeometry = new THREE.PlaneGeometry(5, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 2.5); // Position devant la boule
+textMesh.position.set(0, 3, 2); // Position juste devant la boule
 scene.add(textMesh);
 
-// Vérification initiale de la texture
-console.log("Texte initial chargé :", textTexture);
+// DEBUG : Vérifier si le texte s'affiche bien dans le canvas
+console.log("Texte initial : Cliquez ici ❤️");
 
 // Gestion des clics pour changer le texte
 document.body.addEventListener("click", () => {
     if (romanticMessages.length === 0) {
-        romanticMessages = [...originalMessages]; // Recharger les messages
+        romanticMessages = [...originalMessages];
     }
     const randomIndex = Math.floor(Math.random() * romanticMessages.length);
     const randomMessage = romanticMessages[randomIndex];
@@ -85,60 +73,26 @@ document.body.addEventListener("click", () => {
     // Redessiner le texte sur le canvas
     textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
     textContext.fillText(randomMessage, textCanvas.width / 2, textCanvas.height / 2);
-    textTexture.needsUpdate = true; // Mettre à jour la texture
-    console.log("Nouveau message affiché :", randomMessage); // Debug
+    textTexture.needsUpdate = true; // Mise à jour explicite de la texture
+
+    // DEBUG : Vérifier le texte mis à jour
+    console.log("Nouveau message :", randomMessage);
 });
 
-// Flocons blancs dans la boule
-const snowParticles = new THREE.Group();
-for (let i = 0; i < 500; i++) {
-    const snowGeometry = new THREE.SphereGeometry(0.05, 8, 8);
-    const snowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const snowflake = new THREE.Mesh(snowGeometry, snowMaterial);
-
-    const radius = 4.5;
-    let x, y, z;
-    do {
-        x = (Math.random() - 0.5) * 10;
-        y = (Math.random() - 0.5) * 10;
-        z = (Math.random() - 0.5) * 10;
-    } while (Math.sqrt(x * x + y * y + z * z) > radius);
-
-    snowflake.position.set(x, y + 3, z);
-    snowParticles.add(snowflake);
-}
-scene.add(snowParticles);
-
-// Lumières
-const light1 = new THREE.PointLight(0xffffff, 1.2, 100);
+// Lumières minimales pour diagnostic
+const light1 = new THREE.PointLight(0xffffff, 1.5, 100);
 light1.position.set(10, 10, 10);
 scene.add(light1);
 
-const light2 = new THREE.PointLight(0xfff0e0, 0.8, 100);
-light2.position.set(-10, -10, -10);
-scene.add(light2);
-
-// Caméra et animation
-camera.position.z = 20;
+camera.position.z = 15;
 
 function animate() {
     requestAnimationFrame(animate);
 
-    // Faire tourner la boule et déplacer les flocons
+    // Faire tourner la boule pour observer les effets
     crystalBall.rotation.y += 0.002;
-    snowParticles.children.forEach((snowflake) => {
-        snowflake.position.y -= 0.02;
-        if (snowflake.position.y < -2) snowflake.position.y = 7;
-    });
 
     renderer.render(scene, camera);
 }
 
 animate();
-
-// Ajustement lors du redimensionnement
-window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
