@@ -47,8 +47,8 @@ const textContext = textCanvas.getContext("2d");
 textCanvas.width = 512;
 textCanvas.height = 256;
 
-// Initialiser le texte
-function drawInitialText(message) {
+// Fonction pour dessiner le texte
+function drawText(message) {
     textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
     textContext.font = "30px Arial";
     textContext.fillStyle = "white";
@@ -57,12 +57,14 @@ function drawInitialText(message) {
 }
 
 // Charger la texture du texte
-drawInitialText("Cliquez sur la sphère ❤️");
+drawText("Cliquez ici pour recevoir un message ❤️");
 const textTexture = new THREE.CanvasTexture(textCanvas);
+textTexture.needsUpdate = true;
+
 const textMaterial = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true });
 const textGeometry = new THREE.PlaneGeometry(4, 2);
 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, 3, 2.5); // Devant la boule
+textMesh.position.set(0, 3, 2.5); // Position légèrement devant la sphère
 scene.add(textMesh);
 
 // Mise à jour du texte au clic
@@ -76,8 +78,8 @@ document.body.addEventListener("click", () => {
     romanticMessages.splice(randomIndex, 1);
 
     // Redessiner le texte sur le canvas
-    drawInitialText(randomMessage);
-    textTexture.needsUpdate = true; // Mettre à jour explicitement la texture
+    drawText(randomMessage);
+    textTexture.needsUpdate = true; // Mise à jour explicite de la texture
     console.log("Nouveau message affiché :", randomMessage);
 });
 
