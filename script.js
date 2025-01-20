@@ -31,7 +31,7 @@ function changeMessage() {
     messageIndex = (messageIndex + 1) % messages.length;
 }
 
-// Ajout des flocons de neige
+// Flocons de neige
 function createSnowflake() {
     const snowflake = document.createElement("div");
     snowflake.classList.add("snow");
