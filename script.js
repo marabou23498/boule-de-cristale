@@ -4,10 +4,12 @@ const messages = [
     "Tu es mon univers 🌌",
     "Chaque moment avec toi est un cadeau 💝",
     "Merci d’être la lumière de ma vie ✨",
-    "Tu es mon étoile dans la galaxie ✨",
     "Ton sourire illumine mes journées 🌟",
     "Avec toi, tout est plus beau 🌸",
-    "Je suis chanceux(se) de t'avoir ❤️",
+    "Tu es mon âme sœur 💕",
+    "Merci de remplir ma vie de bonheur chaque jour 🌞",
+    "Tu es mon étoile dans la nuit ✨",
+    "Je suis chanceux(se) de t'aimer ❤️",
     "À tes côtés, je trouve la paix 🕊️",
     "Tu es ma raison de vivre 🌟",
     "Mon cœur bat uniquement pour toi ❤️",
@@ -16,20 +18,20 @@ const messages = [
     "Chaque jour avec toi est magique 💖",
     "Tu es mon rêve devenu réalité 🌈",
     "Je t'aime au-delà des étoiles 🌌"
-    // Vous pouvez ajouter plus de phrases ici
+    // Ajoutez d'autres messages ici si nécessaire
 ];
 
-// Référence à l'élément de message
+// Référence au conteneur de message
 const messageContainer = document.getElementById("message");
 
-// Changer de message au clic
+// Fonction pour changer les messages au clic
 let messageIndex = 0;
 function changeMessage() {
     messageContainer.textContent = messages[messageIndex];
     messageIndex = (messageIndex + 1) % messages.length;
 }
 
-// Flocons de neige
+// Ajout des flocons de neige
 function createSnowflake() {
     const snowflake = document.createElement("div");
     snowflake.classList.add("snow");
