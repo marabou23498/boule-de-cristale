@@ -1,64 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boule de Cristal</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: url('https://wallpaperaccess.com/full/250561.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-        #music-controls {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-        }
-        #music-controls button {
-            background-color: #ffffff;
-            border: none;
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            color: #000;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        #music-controls button:hover {
-            background-color: #d4af37;
-            color: white;
-        }
-        #message {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 24px;
-            text-shadow: 2px 2px 5px black;
-            opacity: 1;
-            transition: opacity 1s ease-in-out;
-        }
-    </style>
+    <title>Bibi et Mimi</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Contrôles de la musique -->
-    <div id="music-controls">
-        <button id="play-music">▶️ Start</button>
-        <button id="pause-music">⏸️ Pause</button>
+    <div class="snow-globe-container">
+        <div class="snow-globe" onclick="changeMessage()">
+            <div class="globe-background"></div>
+            <div class="tree"></div>
+            <div class="message-container" id="message"></div>
+            <div class="base"></div>
+        </div>
     </div>
-
-    <!-- Message au bas de l'écran -->
-    <div id="message">Cliquez sur la sphère pour recevoir un message ❤️</div>
-
-    <!-- Inclusion de Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
