@@ -256,4 +256,3 @@ pauseButton.addEventListener("click", () => {
         "*"
     );
 });
-
