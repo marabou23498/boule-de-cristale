@@ -256,3 +256,16 @@ pauseButton.addEventListener("click", () => {
         "*"
     );
 });
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById("background-video");
+
+    // Forcer la lecture de la vidéo après le chargement
+    video.play().catch((error) => {
+        console.log("Autoplay bloqué, utilisateur requis :", error);
+    });
+
+    // En cas d'erreur ou si la vidéo ne se joue pas
+    video.addEventListener("error", () => {
+        document.body.classList.add("no-video");
+    });
+});
