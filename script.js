@@ -34,13 +34,13 @@ scene.add(supportMesh);
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transmission: 0.95, // Transparence
-    roughness: 0.05,
-    thickness: 2.5,
+    roughness: 0.02,
+    thickness: 3,
     clearcoat: 1.0,
     clearcoatRoughness: 0.1,
-    envMapIntensity: 1.5,
-    reflectivity: 0.4,
-    ior: 1.52, // Indice de réfraction pour un effet réaliste
+    envMapIntensity: 2.0,
+    reflectivity: 0.5,
+    ior: 1.45, // Indice de réfraction
     opacity: 0.9,
     transparent: true,
 });
@@ -48,8 +48,8 @@ const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
 
-// Lumière colorée dans la sphère
-const colorLight = new THREE.PointLight(0xffffff, 2, 50);
+// Lumière dans la sphère
+const colorLight = new THREE.PointLight(0xffffff, 1.5, 50);
 colorLight.position.set(0, 3, 0);
 scene.add(colorLight);
 
