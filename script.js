@@ -1,124 +1,105 @@
-// Messages romantiques
-let romanticMessages = [
-    "Tu es mon miracle au quotidien ❤️",
-    "Chaque jour avec toi est une bénédiction 🥰",
-    "Mon cœur bat pour toi, toujours 💖",
-    "Je t’aime plus que tout au monde 💕",
-    "Tu es la lumière de ma vie ✨",
-    "Avec toi, chaque instant est magique ✨",
-    "Tu es ma raison de sourire 😊",
-    "Ton amour illumine mon monde 🌟",
-    "Je t'aime plus que les mots ne peuvent le dire ❤️‍🔥"
+// Liste de 100 phrases d'amour
+const messages = [
+    "Je t'aime plus que tout ❤️",
+    "Tu es mon univers 🌌",
+    "Chaque moment avec toi est un cadeau 💝",
+    "Merci d’être la lumière de ma vie ✨",
+    "Tu es mon étoile dans la galaxie ✨",
+    "Chaque jour avec toi est magique 💖",
+    "Merci d’être toi 🌹",
+    "Avec toi, tout est plus beau 🌈",
+    "Tu es la mélodie de mon cœur 🎶",
+    "Je suis tellement chanceux(se) de t’avoir ❤️",
+    "Ton sourire illumine mes journées 🌟",
+    "Tu es mon refuge et mon bonheur 💕",
+    "Je t'aime à l'infini et au-delà 🚀",
+    "Tu es le soleil de ma vie ☀️",
+    "Mon cœur bat pour toi, toujours ❤️",
+    "Tu es ma raison de sourire chaque jour 😊",
+    "À tes côtés, je suis invincible 💪",
+    "Je veux vieillir avec toi 🕰️",
+    "Chaque instant avec toi est précieux 💎",
+    "Tu es ma moitié, mon tout ❤️",
+    "Ton amour me rend meilleur(e) 💖",
+    "Je suis à toi pour toujours 💍",
+    "Tu es mon trésor le plus précieux 💝",
+    "À tes côtés, je me sens complet(ète) 🧩",
+    "Tu es l'amour de ma vie ❤️",
+    "Merci d'être ma source de bonheur 🌻",
+    "Je ne peux pas imaginer la vie sans toi 🌙",
+    "Tu es mon miracle quotidien ✨",
+    "Tu es tout ce que j'ai toujours voulu 💕",
+    "Ton amour est mon plus grand cadeau 🎁",
+    "Tu es ma destinée 🌟",
+    "À tes côtés, le monde est plus beau 🌎",
+    "Ton amour est mon univers ❤️",
+    "Je t'aime plus que les étoiles dans le ciel 🌌",
+    "Avec toi, tout est possible 💪",
+    "Tu es ma lumière dans l'obscurité 🌟",
+    "Je t'aime au-delà des mots 💖",
+    "Tu es mon âme sœur 💕",
+    "Mon cœur est à toi, pour toujours ❤️",
+    "Merci d'être mon tout 💝",
+    "Tu es mon rêve devenu réalité 🌈",
+    "À tes côtés, je suis comblé(e) 💖",
+    "Je t'aime chaque jour un peu plus 🌹",
+    "Tu es mon plus beau chapitre 📖",
+    "Je suis chanceux(se) de t'avoir trouvé(e) ❤️",
+    "Ton amour est ma force 💪",
+    "À tes côtés, je me sens chez moi 🏠",
+    "Tu es mon rayon de soleil ☀️",
+    "Mon cœur t'appartient 💖",
+    "Merci d'être toi, tout simplement 🌸",
+    "Ton amour est mon trésor 💎",
+    "Avec toi, je suis complet(ète) 🧩",
+    "Chaque moment avec toi est parfait 🌟",
+    "Tu es mon avenir 🌈",
+    "Je t'aime pour toujours ❤️",
+    "Tu es ma plus grande bénédiction 🙏",
+    "Ton amour est mon ancre 💕",
+    "Avec toi, je suis la meilleure version de moi-même 🌟",
+    "Je suis fier(ère) de t'aimer 💖",
+    "À tes côtés, je trouve la paix 🕊️",
+    "Tu es mon rêve éveillé 🌙",
+    "Mon cœur est rempli d'amour pour toi ❤️",
+    "Merci d'être mon ange gardien ✨",
+    "Tu es ma source de bonheur 🌸",
+    "Je t'aime plus que les mots ne peuvent le dire 💕",
+    "Ton amour est mon refuge 🏠",
+    "Tu es la clé de mon cœur 🔑",
+    "Avec toi, la vie est une aventure 🌟",
+    "Je suis tellement reconnaissant(e) pour toi 🙏",
+    "Ton sourire est mon rayon de soleil 🌞",
+    "Tu es ma plus grande inspiration 🌈",
+    "Je t'aime au-delà des étoiles 🌌",
+    "À tes côtés, je suis en paix 🕊️",
+    "Tu es mon monde entier 🌎",
+    "Ton amour est mon trésor caché 💖",
+    "Je t'aime de tout mon cœur ❤️",
+    "Merci de m'aimer tel(le) que je suis 🌸",
+    "Avec toi, je me sens vivant(e) 💕",
+    "Tu es ma plus belle histoire d'amour 📖",
+    "Ton amour est ma magie ✨",
+    "Tu es mon rêve devenu réalité 🌙",
+    "Je t'aime pour l'éternité 💖",
+    "Tu es ma raison de vivre 🌟",
+    "Merci d'être mon amour, mon tout 💝",
+    "Avec toi, je suis invincible 💪",
+    "Tu es mon étoile dans la nuit 🌌",
+    "Mon cœur bat uniquement pour toi ❤️",
+    "Je suis tellement chanceux(se) de t'avoir trouvé(e) 🌹"
 ];
-let originalMessages = [...romanticMessages];
 
-// Créer la scène 3D
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+// Référence à l'élément du message
+const messageContainer = document.getElementById("message");
 
-// Support pour la boule
-const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
-const supportMaterial = new THREE.MeshStandardMaterial({
-    color: 0xd4af37, // Doré
-    metalness: 0.8,
-    roughness: 0.2,
-});
-const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
-supportMesh.position.set(0, -2, 0);
-scene.add(supportMesh);
+// Gestion du clic pour changer le message
+let messageIndex = 0;
 
-// Boule de cristal
-const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
-const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.6,
-    roughness: 0.1,
-    thickness: 2,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.02,
-    envMapIntensity: 1.5,
-    reflectivity: 0.5,
-    ior: 1.4,
-    opacity: 0.95,
-    transparent: true,
-});
-const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
-crystalBall.position.set(0, 3, 0);
-scene.add(crystalBall);
-
-// Lumière colorée dans la sphère
-const colorLight = new THREE.PointLight(0xffffff, 2, 50);
-colorLight.position.set(0, 3, 0);
-scene.add(colorLight);
-
-let hue = 0; // Teinte de la lumière
-function updateColor() {
-    hue += 0.01;
-    if (hue > 1) hue = 0;
-    const color = new THREE.Color().setHSL(hue, 0.7, 0.5);
-    colorLight.color = color;
+function changeMessage() {
+    messageContainer.textContent = messages[messageIndex];
+    messageIndex = (messageIndex + 1) % messages.length;
 }
 
-// Texte mis à jour au clic
-function updateText(newMessage) {
-    const domText = document.getElementById("message");
-    domText.style.opacity = "0";
-    setTimeout(() => {
-        domText.innerHTML = newMessage;
-        domText.style.opacity = "1";
-    }, 1000);
-}
-
-// Gestion des clics pour afficher un message
-document.body.addEventListener("click", () => {
-    if (romanticMessages.length === 0) {
-        romanticMessages = [...originalMessages];
-    }
-    const randomIndex = Math.floor(Math.random() * romanticMessages.length);
-    const randomMessage = romanticMessages.splice(randomIndex, 1)[0];
-    updateText(randomMessage);
-});
-
-// Caméra et animation
-camera.position.z = 20;
-function animate() {
-    requestAnimationFrame(animate);
-    crystalBall.rotation.y += 0.002; // Rotation de la boule
-    updateColor();
-    renderer.render(scene, camera);
-}
-animate();
-
-// Ajustement de la taille au redimensionnement
-window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Contrôles de la musique via Vocaroo
-const vocarooURL = "https://vocaroo.com/embed/158dUGzrXk3j?autoplay=1";
-const playButton = document.getElementById("play-music");
-const pauseButton = document.getElementById("pause-music");
-let isPlaying = false;
-
-playButton.addEventListener("click", () => {
-    if (!isPlaying) {
-        const vocarooIframe = document.createElement("iframe");
-        vocarooIframe.src = vocarooURL;
-        vocarooIframe.style.display = "none";
-        vocarooIframe.id = "vocaroo-iframe";
-        document.body.appendChild(vocarooIframe);
-        isPlaying = true;
-    }
-});
-
-pauseButton.addEventListener("click", () => {
-    const vocarooIframe = document.getElementById("vocaroo-iframe");
-    if (vocarooIframe) {
-        vocarooIframe.remove();
-        isPlaying = false;
-    }
-});
+// Initialisation avec le premier message
+changeMessage();
