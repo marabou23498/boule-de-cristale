@@ -33,14 +33,14 @@ scene.add(supportMesh);
 // Boule de cristal
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.6,
-    roughness: 0.1,
-    thickness: 2,
+    transmission: 0.9,
+    roughness: 0.05,
+    thickness: 3,
     clearcoat: 1.0,
     clearcoatRoughness: 0.02,
-    envMapIntensity: 1.5,
+    envMapIntensity: 1.2,
     reflectivity: 0.5,
-    ior: 1.4,
+    ior: 1.45,
     opacity: 0.95,
     transparent: true,
 });
@@ -60,6 +60,26 @@ function updateColor() {
     const color = new THREE.Color().setHSL(hue, 0.7, 0.5);
     colorLight.color = color;
 }
+
+// Flocons de neige
+const snowParticles = new THREE.Group();
+for (let i = 0; i < 500; i++) {
+    const snowGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+    const snowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const snowflake = new THREE.Mesh(snowGeometry, snowMaterial);
+
+    const radius = 4.5;
+    let x, y, z;
+    do {
+        x = (Math.random() - 0.5) * 10;
+        y = (Math.random() - 0.5) * 10;
+        z = (Math.random() - 0.5) * 10;
+    } while (Math.sqrt(x * x + y * y + z * z) > radius);
+
+    snowflake.position.set(x, y + 3, z);
+    snowParticles.add(snowflake);
+}
+scene.add(snowParticles);
 
 // Texte mis à jour au clic
 function updateText(newMessage) {
@@ -86,6 +106,10 @@ camera.position.z = 20;
 function animate() {
     requestAnimationFrame(animate);
     crystalBall.rotation.y += 0.002; // Rotation de la boule
+    snowParticles.children.forEach((snowflake) => {
+        snowflake.position.y -= 0.02;
+        if (snowflake.position.y < -2) snowflake.position.y = 7;
+    });
     updateColor();
     renderer.render(scene, camera);
 }
@@ -100,9 +124,10 @@ window.addEventListener("resize", () => {
 
 // Contrôles de la musique via Vocaroo
 const vocarooURL = "https://vocaroo.com/embed/158dUGzrXk3j?autoplay=1";
+let isPlaying = false;
+
 const playButton = document.getElementById("play-music");
 const pauseButton = document.getElementById("pause-music");
-let isPlaying = false;
 
 playButton.addEventListener("click", () => {
     if (!isPlaying) {
