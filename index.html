@@ -7,18 +7,57 @@
     <style>
         body {
             margin: 0;
-            padding: 0;
             overflow: hidden;
-            background: url('https://wallpaperaccess.com/full/250561.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: radial-gradient(circle, #1e3c72, #2a5298); /* Couleurs de fond */
         }
-        canvas {
-            display: block;
+        #music-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        #music-controls button {
+            background-color: #ffffff;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        #music-controls button:hover {
+            background-color: #d4af37;
+            color: white;
         }
     </style>
 </head>
 <body>
+    <div id="music-controls">
+        <button id="play-music">▶️ Lecture</button>
+        <button id="pause-music">⏸️ Pause</button>
+    </div>
+    <audio id="background-music" loop>
+        <source src="https://youtu.be/G_5pzLWjQjY?si=Bu3E2cmcaWGNCMkl" type="audio/mpeg">
+        Votre navigateur ne supporte pas l’audio HTML5.
+    </audio>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Gestion de la musique
+        const music = document.getElementById("background-music");
+        const playButton = document.getElementById("play-music");
+        const pauseButton = document.getElementById("pause-music");
+
+        playButton.addEventListener("click", () => {
+            music.play();
+        });
+
+        pauseButton.addEventListener("click", () => {
+            music.pause();
+        });
+    </script>
 </body>
 </html>
