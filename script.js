@@ -204,27 +204,30 @@ const loader = new THREE.FontLoader();
 loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
     const textGeometry = new THREE.TextGeometry("Bibi pour ta 22ème année 🎉🎊🥳", {
         font: font,
-        size: 0.5,
-        height: 0.1,
+        size: 0.5, // Taille du texte
+        height: 0.1, // Épaisseur du texte
         curveSegments: 12,
         bevelEnabled: true,
-        bevelThickness: 0.03,
+        bevelThickness: 0.02,
         bevelSize: 0.02,
         bevelSegments: 5,
     });
 
     const textMaterial = new THREE.MeshStandardMaterial({
-        color: 0xd4af37, // Doré pour correspondre au support
+        color: 0xffffff, // Couleur blanche pour le texte
         metalness: 0.8,
         roughness: 0.3,
     });
 
     const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-    textMesh.position.set(-2.5, -1.8, 0); // Ajuster la position sur le support
-    textMesh.rotation.x = -Math.PI / 4; // Incliner légèrement pour correspondre au support
+
+    // Positionnement ajusté pour qu'il soit visible sur le support
+    textMesh.position.set(-2.5, -1.5, 0.5); // Légèrement décalé vers l'avant
+    textMesh.rotation.x = -Math.PI / 8; // Inclinaison pour correspondre à la courbe du support
+    textMesh.rotation.z = 0; // Pas de rotation latérale
+
     scene.add(textMesh);
 });
-
 // Lumières
 const light1 = new THREE.PointLight(0xffffff, 1.2, 100);
 light1.position.set(10, 10, 10);
