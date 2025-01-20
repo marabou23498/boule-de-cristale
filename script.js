@@ -199,6 +199,31 @@ for (let i = 0; i < 500; i++) {
     snowParticles.add(snowflake);
 }
 scene.add(snowParticles);
+// Ajouter le texte sur le support
+const loader = new THREE.FontLoader();
+loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+    const textGeometry = new THREE.TextGeometry("Bibi pour ta 22ème année 🎉🎊🥳", {
+        font: font,
+        size: 0.5,
+        height: 0.1,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.02,
+        bevelSegments: 5,
+    });
+
+    const textMaterial = new THREE.MeshStandardMaterial({
+        color: 0xd4af37, // Doré pour correspondre au support
+        metalness: 0.8,
+        roughness: 0.3,
+    });
+
+    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+    textMesh.position.set(-2.5, -1.8, 0); // Ajuster la position sur le support
+    textMesh.rotation.x = -Math.PI / 4; // Incliner légèrement pour correspondre au support
+    scene.add(textMesh);
+});
 
 // Lumières
 const light1 = new THREE.PointLight(0xffffff, 1.2, 100);
