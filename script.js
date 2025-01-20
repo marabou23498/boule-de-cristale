@@ -156,15 +156,24 @@ window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Gestion de la musique
-const music = document.getElementById("background-music");
+// Contrôles de la musique avec SoundCloud
+const soundcloudPlayer = document.getElementById("soundcloud-player");
 const playButton = document.getElementById("play-music");
 const pauseButton = document.getElementById("pause-music");
 
+// Lecture de la musique
 playButton.addEventListener("click", () => {
-    music.play().catch(error => console.log("Erreur de lecture :", error));
+    soundcloudPlayer.contentWindow.postMessage(
+        JSON.stringify({ method: "play" }),
+        "*"
+    );
 });
 
+// Pause de la musique
 pauseButton.addEventListener("click", () => {
-    music.pause();
+    soundcloudPlayer.contentWindow.postMessage(
+        JSON.stringify({ method: "pause" }),
+        "*"
+    );
 });
+
