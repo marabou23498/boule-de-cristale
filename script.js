@@ -1,37 +1,35 @@
-// Liste de phrases d'amour
+// Liste des messages d'amour
 const messages = [
     "Je t'aime plus que tout ❤️",
     "Tu es mon univers 🌌",
     "Chaque moment avec toi est un cadeau 💝",
     "Merci d’être la lumière de ma vie ✨",
-    "Ton amour est mon plus beau trésor 💖",
-    "Avec toi, la vie est plus douce 🌸",
-    "Je t'aime au-delà des étoiles 🌌",
-    "Tu es mon âme sœur 💕",
-    "Merci de me combler de bonheur chaque jour 🌞",
-    "À tes côtés, je suis la meilleure version de moi-même 💪",
+    "Tu es mon étoile dans la galaxie ✨",
+    "Ton sourire illumine mes journées 🌟",
+    "Avec toi, tout est plus beau 🌸",
+    "Je suis chanceux(se) de t'avoir ❤️",
+    "À tes côtés, je trouve la paix 🕊️",
     "Tu es ma raison de vivre 🌟",
-    "Je suis chanceux(se) de t'aimer ❤️",
-    "Tu es mon étoile dans la nuit ✨",
-    "Mon cœur bat pour toi, toujours ❤️",
-    "Avec toi, tout est magique 🌈",
-    "Tu es mon tout, pour l'éternité 💕",
-    "Merci d’être ma lumière dans l’obscurité 🌟"
-    // Ajoutez autant de phrases que vous souhaitez ici
+    "Mon cœur bat uniquement pour toi ❤️",
+    "Merci d'être mon tout 💝",
+    "Avec toi, je suis invincible 💪",
+    "Chaque jour avec toi est magique 💖",
+    "Tu es mon rêve devenu réalité 🌈",
+    "Je t'aime au-delà des étoiles 🌌"
+    // Vous pouvez ajouter plus de phrases ici
 ];
 
-// Référence à l'élément du message
+// Référence à l'élément de message
 const messageContainer = document.getElementById("message");
 
-// Gestion du clic pour changer le message
+// Changer de message au clic
 let messageIndex = 0;
-
 function changeMessage() {
     messageContainer.textContent = messages[messageIndex];
     messageIndex = (messageIndex + 1) % messages.length;
 }
 
-// Flocons de neige animés
+// Flocons de neige
 function createSnowflake() {
     const snowflake = document.createElement("div");
     snowflake.classList.add("snow");
@@ -42,4 +40,4 @@ function createSnowflake() {
     setTimeout(() => snowflake.remove(), 5000);
 }
 
-setInterval(createSnowflake, 100);
+setInterval(createSnowflake, 150);
