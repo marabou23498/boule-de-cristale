@@ -1,87 +1,64 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boule de Cristal</title>
     <style>
-        /* Fond d'écran magique */
         body {
             margin: 0;
-            padding: 0;
-            background: url('https://i.imgur.com/VUadRg1.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .snow-globe-container {
-            position: relative;
-            width: 350px;
-            height: 350px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .snow-globe {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: url('https://i.imgur.com/tRIPgJx.jpeg') no-repeat center center;
+            background: url('https://wallpaperaccess.com/full/250561.jpg') no-repeat center center fixed;
             background-size: cover;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        #music-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+        #music-controls button {
+            background-color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 5px;
             cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #000;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
         }
-
-        .message-container {
-            position: absolute;
-            bottom: 20%;
-            width: 80%;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
+        #music-controls button:hover {
+            background-color: #d4af37;
             color: white;
-            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
-            z-index: 10;
         }
-
-        .snow {
+        #message {
             position: absolute;
-            width: 5px;
-            height: 5px;
-            background: white;
-            border-radius: 50%;
-            z-index: 5;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-100%);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(350px);
-                opacity: 0.5;
-            }
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            text-shadow: 2px 2px 5px black;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
         }
     </style>
 </head>
 <body>
-    <div class="snow-globe-container">
-        <div class="snow-globe" onclick="changeMessage()">
-            <div class="message-container" id="message">Cliquez pour découvrir un message d'amour</div>
-        </div>
+    <!-- Contrôles de la musique -->
+    <div id="music-controls">
+        <button id="play-music">▶️ Start</button>
+        <button id="pause-music">⏸️ Pause</button>
     </div>
+
+    <!-- Message au bas de l'écran -->
+    <div id="message">Cliquez sur la sphère pour recevoir un message ❤️</div>
+
+    <!-- Inclusion de Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
