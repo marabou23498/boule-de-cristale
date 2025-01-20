@@ -17,7 +17,7 @@
             height: 100%;
             z-index: -1;
             object-fit: cover;
-            opacity: 0.8; /* Ajuste l'opacité pour un effet plus subtil */
+            opacity: 0.8; /* Ajuste l'opacité pour un effet subtil */
         }
         #music-controls {
             position: absolute;
@@ -41,30 +41,20 @@
             background-color: #d4af37;
             color: white;
         }
-        iframe#soundcloud-player {
-            display: none; /* Masque le lecteur SoundCloud */
-        }
     </style>
 </head>
 <body>
     <!-- Vidéo en arrière-plan -->
-    <video autoplay muted loop playsinline id="background-video">
-    <source src="https://media-hosting.imagekit.io//77205a5c55184f06/AdobeStock_628185277.mov?Expires=1831998874&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=crHr4d~RRe7me9RRMzi8cysdWe2rFFkzHusqLvf7cFIc3pddGT8xA4VTMfmOF6SWjmM1vUIm3NszkQ67rIge1DMd6UOUREX~mNbZJWeLKab5ZggddP2Yd9Tq8o6XJljAXghsTEhaCHCpAVmewEqVUrLwoJs3j4WwpvtS2IvijfV~D~uExqGIcy8acOkUTxrqK6W1yleYqgQZUBet0f036J0A8tg9zL8FT7mTshoi7Z3W4Aq4Pmx31RVBYlFnL-O~mYI5Mt-nWTNPBOyC6XDeTQk3hddDiGzcz312WACumnUhLshntuB660d0n-PWtRcmkovIc~Cdf3j0MyA7v5svEQ__" type="video/mp4">
-    Votre navigateur ne supporte pas les vidéos HTML5.
-</video>
+    <video autoplay muted loop playsinline preload="metadata" id="background-video">
+        <source src="https://media-hosting.imagekit.io//654c397435fb4f82/Adobestock%2520628185277.mp4?Expires=1832000961&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=npR6uf-RLGuYRm~B2oQJj7CBINj~L-Ahx3OMQZ2BrfjPBzDkQFf85bzmigh1sJkYUFbDys9bpbTZQz8WgL~2eJvM~vYLT2n~R6~aYApEe5lEauurG9bc60IX3ZYqOuZ08tZfMeL6SeSHypfJyvCUBJUcu-0KRn0oR5ljkfQ3VDsxah3u2LBd~PEhJLrWhmbL8cgwNWPTaK4CWFl2TdDnE6b9D1bMDv0d2Lww8CVttqT-Eu02lQLr-OSIUmZpJb5tla4nzMU1k5pw4hIdaHz6~AVYUv3OmfRKE34oHYYHX0TqCrzn6lsDtWeUxTlWHiCy2YF9bPPdu5cXie46~frBDw__" type="video/mp4">
+        Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+
     <!-- Contrôles de musique -->
     <div id="music-controls">
         <button id="play-music">▶️ Lecture</button>
         <button id="pause-music">⏸️ Pause</button>
     </div>
-
-    <!-- Lecteur SoundCloud invisible -->
-    <iframe
-        id="soundcloud-player"
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/101588669&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false"
-        frameborder="no"
-        allow="autoplay">
-    </iframe>
 
     <!-- Inclusion de Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
