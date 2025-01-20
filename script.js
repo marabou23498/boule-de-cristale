@@ -241,20 +241,22 @@ const soundcloudPlayer = document.getElementById("soundcloud-player");
 const playButton = document.getElementById("play-music");
 const pauseButton = document.getElementById("pause-music");
 
+// Récupération des éléments du DOM
+const playButton = document.getElementById("play-music");
+const pauseButton = document.getElementById("pause-music");
+const audio = document.getElementById("background-music");
+
 // Lecture de la musique
 playButton.addEventListener("click", () => {
-    soundcloudPlayer.contentWindow.postMessage(
-        JSON.stringify({ method: "play" }),
-        "*"
-    );
+    audio.play()
+        .then(() => console.log("La musique joue."))
+        .catch((error) => console.error("Erreur lors de la lecture :", error));
 });
 
 // Pause de la musique
 pauseButton.addEventListener("click", () => {
-    soundcloudPlayer.contentWindow.postMessage(
-        JSON.stringify({ method: "pause" }),
-        "*"
-    );
+    audio.pause();
+    console.log("Musique mise en pause.");
 });
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("background-video");
