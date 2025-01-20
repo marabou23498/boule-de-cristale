@@ -1,93 +1,23 @@
-// Liste de 100 phrases d'amour
+// Liste de phrases d'amour
 const messages = [
     "Je t'aime plus que tout ❤️",
     "Tu es mon univers 🌌",
     "Chaque moment avec toi est un cadeau 💝",
     "Merci d’être la lumière de ma vie ✨",
-    "Tu es mon étoile dans la galaxie ✨",
-    "Chaque jour avec toi est magique 💖",
-    "Merci d’être toi 🌹",
-    "Avec toi, tout est plus beau 🌈",
-    "Tu es la mélodie de mon cœur 🎶",
-    "Je suis tellement chanceux(se) de t’avoir ❤️",
-    "Ton sourire illumine mes journées 🌟",
-    "Tu es mon refuge et mon bonheur 💕",
-    "Je t'aime à l'infini et au-delà 🚀",
-    "Tu es le soleil de ma vie ☀️",
-    "Mon cœur bat pour toi, toujours ❤️",
-    "Tu es ma raison de sourire chaque jour 😊",
-    "À tes côtés, je suis invincible 💪",
-    "Je veux vieillir avec toi 🕰️",
-    "Chaque instant avec toi est précieux 💎",
-    "Tu es ma moitié, mon tout ❤️",
-    "Ton amour me rend meilleur(e) 💖",
-    "Je suis à toi pour toujours 💍",
-    "Tu es mon trésor le plus précieux 💝",
-    "À tes côtés, je me sens complet(ète) 🧩",
-    "Tu es l'amour de ma vie ❤️",
-    "Merci d'être ma source de bonheur 🌻",
-    "Je ne peux pas imaginer la vie sans toi 🌙",
-    "Tu es mon miracle quotidien ✨",
-    "Tu es tout ce que j'ai toujours voulu 💕",
-    "Ton amour est mon plus grand cadeau 🎁",
-    "Tu es ma destinée 🌟",
-    "À tes côtés, le monde est plus beau 🌎",
-    "Ton amour est mon univers ❤️",
-    "Je t'aime plus que les étoiles dans le ciel 🌌",
-    "Avec toi, tout est possible 💪",
-    "Tu es ma lumière dans l'obscurité 🌟",
-    "Je t'aime au-delà des mots 💖",
-    "Tu es mon âme sœur 💕",
-    "Mon cœur est à toi, pour toujours ❤️",
-    "Merci d'être mon tout 💝",
-    "Tu es mon rêve devenu réalité 🌈",
-    "À tes côtés, je suis comblé(e) 💖",
-    "Je t'aime chaque jour un peu plus 🌹",
-    "Tu es mon plus beau chapitre 📖",
-    "Je suis chanceux(se) de t'avoir trouvé(e) ❤️",
-    "Ton amour est ma force 💪",
-    "À tes côtés, je me sens chez moi 🏠",
-    "Tu es mon rayon de soleil ☀️",
-    "Mon cœur t'appartient 💖",
-    "Merci d'être toi, tout simplement 🌸",
-    "Ton amour est mon trésor 💎",
-    "Avec toi, je suis complet(ète) 🧩",
-    "Chaque moment avec toi est parfait 🌟",
-    "Tu es mon avenir 🌈",
-    "Je t'aime pour toujours ❤️",
-    "Tu es ma plus grande bénédiction 🙏",
-    "Ton amour est mon ancre 💕",
-    "Avec toi, je suis la meilleure version de moi-même 🌟",
-    "Je suis fier(ère) de t'aimer 💖",
-    "À tes côtés, je trouve la paix 🕊️",
-    "Tu es mon rêve éveillé 🌙",
-    "Mon cœur est rempli d'amour pour toi ❤️",
-    "Merci d'être mon ange gardien ✨",
-    "Tu es ma source de bonheur 🌸",
-    "Je t'aime plus que les mots ne peuvent le dire 💕",
-    "Ton amour est mon refuge 🏠",
-    "Tu es la clé de mon cœur 🔑",
-    "Avec toi, la vie est une aventure 🌟",
-    "Je suis tellement reconnaissant(e) pour toi 🙏",
-    "Ton sourire est mon rayon de soleil 🌞",
-    "Tu es ma plus grande inspiration 🌈",
+    "Ton amour est mon plus beau trésor 💖",
+    "Avec toi, la vie est plus douce 🌸",
     "Je t'aime au-delà des étoiles 🌌",
-    "À tes côtés, je suis en paix 🕊️",
-    "Tu es mon monde entier 🌎",
-    "Ton amour est mon trésor caché 💖",
-    "Je t'aime de tout mon cœur ❤️",
-    "Merci de m'aimer tel(le) que je suis 🌸",
-    "Avec toi, je me sens vivant(e) 💕",
-    "Tu es ma plus belle histoire d'amour 📖",
-    "Ton amour est ma magie ✨",
-    "Tu es mon rêve devenu réalité 🌙",
-    "Je t'aime pour l'éternité 💖",
+    "Tu es mon âme sœur 💕",
+    "Merci de me combler de bonheur chaque jour 🌞",
+    "À tes côtés, je suis la meilleure version de moi-même 💪",
     "Tu es ma raison de vivre 🌟",
-    "Merci d'être mon amour, mon tout 💝",
-    "Avec toi, je suis invincible 💪",
-    "Tu es mon étoile dans la nuit 🌌",
-    "Mon cœur bat uniquement pour toi ❤️",
-    "Je suis tellement chanceux(se) de t'avoir trouvé(e) 🌹"
+    "Je suis chanceux(se) de t'aimer ❤️",
+    "Tu es mon étoile dans la nuit ✨",
+    "Mon cœur bat pour toi, toujours ❤️",
+    "Avec toi, tout est magique 🌈",
+    "Tu es mon tout, pour l'éternité 💕",
+    "Merci d’être ma lumière dans l’obscurité 🌟"
+    // Ajoutez autant de phrases que vous souhaitez ici
 ];
 
 // Référence à l'élément du message
@@ -101,6 +31,15 @@ function changeMessage() {
     messageIndex = (messageIndex + 1) % messages.length;
 }
 
-// Initialisation avec le premier message
-changeMessage();
+// Flocons de neige animés
+function createSnowflake() {
+    const snowflake = document.createElement("div");
+    snowflake.classList.add("snow");
+    snowflake.style.left = Math.random() * 100 + "%";
+    snowflake.style.animationDuration = Math.random() * 3 + 2 + "s";
+    document.querySelector(".snow-globe").appendChild(snowflake);
 
+    setTimeout(() => snowflake.remove(), 5000);
+}
+
+setInterval(createSnowflake, 100);
