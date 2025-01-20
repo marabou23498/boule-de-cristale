@@ -17,7 +17,7 @@
             height: 100%;
             z-index: -1;
             object-fit: cover;
-            opacity: 0.8;
+            opacity: 0.8; /* Ajuste l'opacité pour un effet subtil */
         }
         #music-controls {
             position: absolute;
@@ -46,7 +46,7 @@
 <body>
     <!-- Vidéo en arrière-plan -->
     <video autoplay muted loop playsinline preload="metadata" id="background-video">
-        <source src="https://media-hosting.imagekit.io//654c397435fb4f82/Adobestock%20628185277.mp4?Expires=1832000961&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=npR6uf-RLGuYRm~B2oQJj7CBINj~L-Ahx3OMQZ2BrfjPBzDkQFf85bzmigh1sJkYUFbDys9bpbTZQz8WgL~2eJvM~vYLT2n~R6~aYApEe5lEauurG9bc60IX3ZYqOuZ08tZfMeL6SeSHypfJyvCUBJUcu-0KRn0oR5ljkfQ3VDsxah3u2LBd~PEhJLrWhmbL8cgwNWPTaK4CWFl2TdDnE6b9D1bMDv0d2Lww8CVttqT-Eu02lQLr-OSIUmZpJb5tla4nzMU1k5pw4hIdaHz6~AVYUv3OmfRKE34oHYYHX0TqCrzn6lsDtWeUxTlWHiCy2YF9bPPdu5cXie46~frBDw__" type="video/mp4">
+        <source src="https://media-hosting.imagekit.io//654c397435fb4f82/Adobestock%2520628185277.mp4?Expires=1832000961&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=npR6uf-RLGuYRm~B2oQJj7CBINj~L-Ahx3OMQZ2BrfjPBzDkQFf85bzmigh1sJkYUFbDys9bpbTZQz8WgL~2eJvM~vYLT2n~R6~aYApEe5lEauurG9bc60IX3ZYqOuZ08tZfMeL6SeSHypfJyvCUBJUcu-0KRn0oR5ljkfQ3VDsxah3u2LBd~PEhJLrWhmbL8cgwNWPTaK4CWFl2TdDnE6b9D1bMDv0d2Lww8CVttqT-Eu02lQLr-OSIUmZpJb5tla4nzMU1k5pw4hIdaHz6~AVYUv3OmfRKE34oHYYHX0TqCrzn6lsDtWeUxTlWHiCy2YF9bPPdu5cXie46~frBDw__" type="video/mp4">
         Votre navigateur ne supporte pas les vidéos HTML5.
     </video>
 
@@ -55,12 +55,6 @@
         <button id="play-music">▶️ Lecture</button>
         <button id="pause-music">⏸️ Pause</button>
     </div>
-
-    <!-- Lecteur audio -->
-    <audio id="background-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Votre navigateur ne supporte pas l’audio HTML5.
-    </audio>
 
     <!-- Inclusion de Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
