@@ -98,15 +98,27 @@ window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Contrôles de la musique
-const vocarooIframe = document.getElementById("vocaroo");
+// Contrôles de la musique via Vocaroo
+const vocarooURL = "https://vocaroo.com/embed/158dUGzrXk3j?autoplay=1";
 const playButton = document.getElementById("play-music");
 const pauseButton = document.getElementById("pause-music");
+let isPlaying = false;
 
 playButton.addEventListener("click", () => {
-    vocarooIframe.src += "&autoplay=1";
+    if (!isPlaying) {
+        const vocarooIframe = document.createElement("iframe");
+        vocarooIframe.src = vocarooURL;
+        vocarooIframe.style.display = "none";
+        vocarooIframe.id = "vocaroo-iframe";
+        document.body.appendChild(vocarooIframe);
+        isPlaying = true;
+    }
 });
 
 pauseButton.addEventListener("click", () => {
-    vocarooIframe.src = vocarooIframe.src.replace("&autoplay=1", "");
+    const vocarooIframe = document.getElementById("vocaroo-iframe");
+    if (vocarooIframe) {
+        vocarooIframe.remove();
+        isPlaying = false;
+    }
 });
