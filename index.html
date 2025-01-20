@@ -41,6 +41,9 @@
             background-color: #d4af37;
             color: white;
         }
+        iframe {
+            display: none; /* Cache le lecteur SoundCloud */
+        }
     </style>
 </head>
 <body>
@@ -56,9 +59,19 @@
         <button id="pause-music">⏸️ Pause</button>
     </div>
 
+    <!-- Lecteur SoundCloud -->
+    <iframe 
+        id="soundcloud-player" 
+        width="100%" 
+        height="166" 
+        scrolling="no" 
+        frameborder="no" 
+        allow="autoplay" 
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/101588669&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+    </iframe>
+
     <!-- Inclusion de Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
