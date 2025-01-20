@@ -1,26 +1,25 @@
-// Liste des messages d'amour
+// Messages romantiques
 let romanticMessages = [
     "Tu es mon miracle au quotidien ❤️",
     "Chaque jour avec toi est une bénédiction 🥰",
     "Mon cœur bat pour toi, toujours 💖",
     "Je t’aime plus que tout au monde 💕",
     "Tu es la lumière de ma vie ✨",
-    "Je suis chanceux(se) de t'avoir 🥂",
-    "Mon âme danse quand je te vois 💃",
+    "Avec toi, chaque instant est magique ✨",
     "Tu es ma raison de sourire 😊",
     "Ton amour illumine mon monde 🌟",
     "Je t'aime plus que les mots ne peuvent le dire ❤️‍🔥"
 ];
 let originalMessages = [...romanticMessages];
 
-// Créer la scène
+// Créer la scène 3D
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Support pour la boule de cristal
+// Support pour la boule
 const supportGeometry = new THREE.CylinderGeometry(3.5, 4, 2, 32);
 const supportMaterial = new THREE.MeshStandardMaterial({
     color: 0xd4af37, // Doré
@@ -31,7 +30,7 @@ const supportMesh = new THREE.Mesh(supportGeometry, supportMaterial);
 supportMesh.position.set(0, -2, 0);
 scene.add(supportMesh);
 
-// Boule de cristal avec effet verre
+// Boule de cristal
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
     transmission: 0.6,
@@ -49,122 +48,65 @@ const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
 crystalBall.position.set(0, 3, 0);
 scene.add(crystalBall);
 
-// Ajouter un effet de lumière colorée à l'intérieur de la sphère
+// Lumière colorée dans la sphère
 const colorLight = new THREE.PointLight(0xffffff, 2, 50);
 colorLight.position.set(0, 3, 0);
 scene.add(colorLight);
 
-// Fonction pour animer les couleurs
-let colorChangeSpeed = 0.01; // Vitesse du changement de couleur
-let hue = 0; // Teinte de la couleur (0-1)
+let hue = 0; // Teinte de la lumière
 function updateColor() {
-    hue += colorChangeSpeed;
-    if (hue > 1) hue = 0; // Réinitialiser la teinte
-    const color = new THREE.Color().setHSL(hue, 0.7, 0.5); // Créer une couleur HSL
-    colorLight.color = color; // Appliquer la couleur à la lumière
+    hue += 0.01;
+    if (hue > 1) hue = 0;
+    const color = new THREE.Color().setHSL(hue, 0.7, 0.5);
+    colorLight.color = color;
 }
 
-// Ajouter un texte visible sur le site
-const domText = document.createElement("div");
-domText.style.position = "absolute";
-domText.style.bottom = "20px"; // Texte placé en bas de l'écran
-domText.style.width = "100%";
-domText.style.textAlign = "center";
-domText.style.color = "white";
-domText.style.fontFamily = "Arial, sans-serif";
-domText.style.fontSize = "24px";
-domText.style.textShadow = "2px 2px 5px black";
-domText.style.opacity = "1"; // Opacité initiale
-domText.style.transition = "opacity 1s ease-in-out"; // Transition fluide
-domText.innerHTML = "Cliquez sur la sphère pour recevoir un message ❤️";
-document.body.appendChild(domText);
-
-// Fonction pour mettre à jour le texte avec un effet de transition
+// Texte mis à jour au clic
 function updateText(newMessage) {
-    domText.style.opacity = "0"; // Commencer par masquer le texte
+    const domText = document.getElementById("message");
+    domText.style.opacity = "0";
     setTimeout(() => {
-        domText.innerHTML = newMessage; // Changer le message une fois masqué
-        domText.style.opacity = "1"; // Réafficher le texte avec une transition
-    }, 1000); // Attendre la fin de l'effet de fondu (1s)
+        domText.innerHTML = newMessage;
+        domText.style.opacity = "1";
+    }, 1000);
 }
 
-// Mettre à jour le texte au clic
+// Gestion des clics pour afficher un message
 document.body.addEventListener("click", () => {
     if (romanticMessages.length === 0) {
-        romanticMessages = [...originalMessages]; // Réinitialiser les messages
+        romanticMessages = [...originalMessages];
     }
     const randomIndex = Math.floor(Math.random() * romanticMessages.length);
-    const randomMessage = romanticMessages[randomIndex];
-    romanticMessages.splice(randomIndex, 1);
-
-    updateText(randomMessage); // Appeler la fonction de transition
+    const randomMessage = romanticMessages.splice(randomIndex, 1)[0];
+    updateText(randomMessage);
 });
-
-// Flocons de neige dans la boule
-const snowParticles = new THREE.Group();
-for (let i = 0; i < 500; i++) {
-    const snowGeometry = new THREE.SphereGeometry(0.05, 8, 8);
-    const snowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const snowflake = new THREE.Mesh(snowGeometry, snowMaterial);
-
-    const radius = 4.5;
-    let x, y, z;
-    do {
-        x = (Math.random() - 0.5) * 10;
-        y = (Math.random() - 0.5) * 10;
-        z = (Math.random() - 0.5) * 10;
-    } while (Math.sqrt(x * x + y * y + z * z) > radius);
-
-    snowflake.position.set(x, y + 3, z);
-    snowParticles.add(snowflake);
-}
-scene.add(snowParticles);
-
-// Lumières
-const light1 = new THREE.PointLight(0xffffff, 1.2, 100);
-light1.position.set(10, 10, 10);
-scene.add(light1);
-
-const light2 = new THREE.PointLight(0xfff0e0, 0.8, 100);
-light2.position.set(-10, -10, -10);
-scene.add(light2);
 
 // Caméra et animation
 camera.position.z = 20;
-
 function animate() {
     requestAnimationFrame(animate);
-
-    // Faire tourner la boule et déplacer les flocons
-    crystalBall.rotation.y += 0.002;
-    snowParticles.children.forEach((snowflake) => {
-        snowflake.position.y -= 0.02;
-        if (snowflake.position.y < -2) snowflake.position.y = 7;
-    });
-
-    updateColor(); // Changer les couleurs dans la sphère
-
+    crystalBall.rotation.y += 0.002; // Rotation de la boule
+    updateColor();
     renderer.render(scene, camera);
 }
-
 animate();
 
-// Ajustement lors du redimensionnement
+// Ajustement de la taille au redimensionnement
 window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Gestion de la musique
-const music = document.getElementById("background-music");
+// Contrôles de la musique
+const vocarooIframe = document.getElementById("vocaroo");
 const playButton = document.getElementById("play-music");
 const pauseButton = document.getElementById("pause-music");
 
 playButton.addEventListener("click", () => {
-    music.play().catch(error => console.log("Erreur de lecture :", error));
+    vocarooIframe.src += "&autoplay=1";
 });
 
 pauseButton.addEventListener("click", () => {
-    music.pause();
+    vocarooIframe.src = vocarooIframe.src.replace("&autoplay=1", "");
 });
