@@ -33,15 +33,15 @@ scene.add(supportMesh);
 // Boule de cristal
 const crystalGeometry = new THREE.SphereGeometry(5, 64, 64);
 const crystalMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 0.9,
+    transmission: 0.95, // Transparence
     roughness: 0.05,
-    thickness: 3,
+    thickness: 2.5,
     clearcoat: 1.0,
-    clearcoatRoughness: 0.02,
-    envMapIntensity: 1.2,
-    reflectivity: 0.5,
-    ior: 1.45,
-    opacity: 0.95,
+    clearcoatRoughness: 0.1,
+    envMapIntensity: 1.5,
+    reflectivity: 0.4,
+    ior: 1.52, // Indice de réfraction pour un effet réaliste
+    opacity: 0.9,
     transparent: true,
 });
 const crystalBall = new THREE.Mesh(crystalGeometry, crystalMaterial);
@@ -122,8 +122,8 @@ window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Contrôles de la musique via Vocaroo
-const vocarooURL = "https://vocaroo.com/embed/158dUGzrXk3j?autoplay=1";
+// Contrôles de la musique
+const audio = new Audio("https://www.dropbox.com/scl/fi/x006ddxg8lgnva5glcydt/La-Fouine-Ma-meilleure-Clip-officiel-ft.-Zaho.mp3?rlkey=s0hlnb9jck5zwiz8z8xl7oozf&dl=1");
 let isPlaying = false;
 
 const playButton = document.getElementById("play-music");
@@ -131,19 +131,14 @@ const pauseButton = document.getElementById("pause-music");
 
 playButton.addEventListener("click", () => {
     if (!isPlaying) {
-        const vocarooIframe = document.createElement("iframe");
-        vocarooIframe.src = vocarooURL;
-        vocarooIframe.style.display = "none";
-        vocarooIframe.id = "vocaroo-iframe";
-        document.body.appendChild(vocarooIframe);
+        audio.play();
         isPlaying = true;
     }
 });
 
 pauseButton.addEventListener("click", () => {
-    const vocarooIframe = document.getElementById("vocaroo-iframe");
-    if (vocarooIframe) {
-        vocarooIframe.remove();
+    if (isPlaying) {
+        audio.pause();
         isPlaying = false;
     }
 });
