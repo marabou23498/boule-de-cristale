@@ -14,18 +14,18 @@
         #music-controls {
             position: absolute;
             top: 10px;
-            right: 10px;
+            left: 10px;
             z-index: 1000;
         }
         #music-controls button {
             background-color: #ffffff;
             border: none;
-            padding: 10px;
+            padding: 5px 10px;
             margin: 5px;
             border-radius: 5px;
             cursor: pointer;
             font-family: Arial, sans-serif;
-            font-size: 14px;
+            font-size: 12px;
             color: #000;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
         }
@@ -36,16 +36,32 @@
     </style>
 </head>
 <body>
-    <!-- Contrôles de musique -->
+    <!-- Boutons de contrôle pour la musique -->
     <div id="music-controls">
-        <button id="play-music">▶️ Lecture</button>
+        <button id="play-music">▶️ Start</button>
         <button id="pause-music">⏸️ Pause</button>
     </div>
-    <audio id="background-music" loop>
-        <source src="file:///C:/Users/kaddo/Downloads/La%20Fouine%20-%20Ma%20meilleure%20(Clip%20officiel)%20ft.%20Zaho%20(2).mp3" type="audio/mpeg">
-        Votre navigateur ne supporte pas l’audio HTML5.
-    </audio>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js"></script>
+
+    <!-- Lecteur SoundCloud -->
+    <iframe width="0" height="0" style="display:none;" scrolling="no" frameborder="no" allow="autoplay" 
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/101588669&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+    </iframe>
+
+    <script>
+        // Gestion du lecteur SoundCloud
+        const iframe = document.querySelector("iframe");
+        const playButton = document.getElementById("play-music");
+        const pauseButton = document.getElementById("pause-music");
+
+        // Activer la lecture
+        playButton.addEventListener("click", () => {
+            iframe.contentWindow.postMessage(JSON.stringify({ method: 'play' }), '*');
+        });
+
+        // Mettre en pause
+        pauseButton.addEventListener("click", () => {
+            iframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*');
+        });
+    </script>
 </body>
 </html>
