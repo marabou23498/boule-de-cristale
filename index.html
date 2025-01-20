@@ -17,7 +17,7 @@
             height: 100%;
             z-index: -1;
             object-fit: cover;
-            opacity: 0.8; /* Ajuste l'opacité pour un effet subtil */
+            opacity: 0.8;
         }
         #music-controls {
             position: absolute;
@@ -56,8 +56,34 @@
         <button id="pause-music">⏸️ Pause</button>
     </div>
 
+    <!-- Lecteur audio -->
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l’audio HTML5.
+    </audio>
+
     <!-- Inclusion de Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
+Code pour script.js
+Ajoute ce code pour gérer les boutons Start et Pause qui contrôlent la musique.
+
+javascript
+Copier
+Modifier
+// Contrôles de la musique
+const playButton = document.getElementById("play-music");
+const pauseButton = document.getElementById("pause-music");
+const audio = document.getElementById("background-music");
+
+// Lecture de la musique
+playButton.addEventListener("click", () => {
+    audio.play().catch((error) => console.error("Erreur lors de la lecture de la musique :", error));
+});
+
+// Pause de la musique
+pauseButton.addEventListener("click", () => {
+    audio.pause();
+});
