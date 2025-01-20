@@ -1,4 +1,4 @@
-// Liste étendue des messages d'amour
+// Liste des messages d'amour
 let romanticMessages = [
     "Tu es mon miracle au quotidien ❤️",
     "Chaque jour avec toi est une bénédiction 🥰",
@@ -9,55 +9,7 @@ let romanticMessages = [
     "Mon âme danse quand je te vois 💃",
     "Tu es ma raison de sourire 😊",
     "Ton amour illumine mon monde 🌟",
-    "Je t'aime plus que les mots ne peuvent le dire ❤️‍🔥",
-    "Avec toi, la vie est belle et pleine de sens 🌸",
-    "Je t’aime d’un amour pur et sincère 💕",
-    "Tu es mon trésor, mon bien le plus précieux 💝",
-    "Ton sourire illumine ma journée et enchante mon cœur 💫",
-    "Avec toi, chaque instant est magique ✨",
-    "Tu es mon étoile, mon guide, mon univers 🌟",
-    "Je t’aime plus que tout au monde, aujourd’hui et pour toujours ❤️",
-    "Ton amour est la force qui me pousse à avancer chaque jour 🌈",
-    "Chaque regard échangé, chaque sourire partagé renforce notre lien 💑",
-    "Tu es ma plus belle aventure 💕",
-    "Avec toi, je découvre le bonheur chaque jour 💫",
-    "Tu es ma plus grande fierté 🏆",
-    "Ton amour illumine mon cœur comme un soleil radieux ☀️",
-    "Tu es ma plus belle victoire 🏅",
-    "Je suis chanceux(se) de vivre dans un monde où tu existes 🌍",
-    "Mon amour pour toi est infini, tout comme les étoiles dans le ciel 🌌",
-    "Tu es la douceur qui apaise mon âme 🕊️",
-    "Je t’aime comme jamais je n’ai aimé 💞",
-    "Chaque seconde avec toi est un moment précieux à chérir 🕰️",
-    "Tu es mon rêve devenu réalité ✨",
-    "Ton amour est un feu qui réchauffe mon cœur 🔥",
-    "Je t’aime plus que tout au monde 🌟",
-    "Avec toi, je peux conquérir tous mes rêves 💭",
-    "Ton sourire est une lumière dans mes ténèbres 🌠",
-    "Je suis à toi, aujourd’hui et pour toujours 💍",
-    "Tu es la clé de mon bonheur 🔑",
-    "Avec toi, tout semble plus simple 🌈",
-    "Je suis comblé(e) de t’avoir dans ma vie 🎁",
-    "Tu es la poésie qui donne un sens à ma vie 📝",
-    "Chaque instant passé avec toi est une bénédiction 💖",
-    "Tu es la symphonie de mon cœur 🎶",
-    "Je t’aime au-delà des mots 💕",
-    "Ton amour est la plus douce des mélodies 🎵",
-    "Je suis ton/ta pour toujours, quoi qu’il arrive 💌",
-    "Tu es mon étoile du nord, celle qui guide chacun de mes pas 🌟",
-    "Ton amour est le plus beau cadeau que la vie m’ait offert 🎁",
-    "Avec toi, la vie est une aventure incroyable 🌍",
-    "Je t’aime plus que tout ce que je pourrais jamais exprimer ❤️",
-    "Ton sourire illumine ma vie comme un rayon de soleil ☀️",
-    "Tu es ma raison de vivre, mon tout 💕",
-    "Chaque moment avec toi est gravé dans mon cœur 🕰️",
-    "Je suis fou/folle de toi aujourd’hui et pour l’éternité 🌹",
-    "Ton amour est la lumière qui éclaire mon chemin 🕯️",
-    "Avec toi, le monde entier semble parfait 🌎",
-    "Tu es mon havre de paix, mon refuge 🏡",
-    "Je t’aime infiniment, plus grand que l’univers lui-même 🌌",
-    "Ton amour est la force qui me pousse à avancer chaque jour 🛤️",
-    "Tu es l’amour de ma vie, mon âme sœur 💖",
+    "Je t'aime plus que les mots ne peuvent le dire ❤️‍🔥"
 ];
 let originalMessages = [...romanticMessages];
 
@@ -146,7 +98,6 @@ document.body.addEventListener("click", () => {
     romanticMessages.splice(randomIndex, 1);
 
     updateText(randomMessage); // Appeler la fonction de transition
-    console.log("Nouveau message affiché :", randomMessage);
 });
 
 // Flocons de neige dans la boule
@@ -203,4 +154,17 @@ window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Gestion de la musique
+const music = document.getElementById("background-music");
+const playButton = document.getElementById("play-music");
+const pauseButton = document.getElementById("pause-music");
+
+playButton.addEventListener("click", () => {
+    music.play().catch(error => console.log("Erreur de lecture :", error));
+});
+
+pauseButton.addEventListener("click", () => {
+    music.pause();
 });
