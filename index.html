@@ -1,13 +1,3 @@
-<audio id="background-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    Votre navigateur ne supporte pas l’audio HTML5.
-</audio>
-Code HTML Final
-Voici un exemple complet qui utilise une URL audio fonctionnelle (modifie l’URL avec celle de ton choix) :
-
-html
-Copier
-Modifier
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,32 +36,16 @@ Modifier
     </style>
 </head>
 <body>
+    <!-- Contrôles de musique -->
     <div id="music-controls">
         <button id="play-music">▶️ Lecture</button>
         <button id="pause-music">⏸️ Pause</button>
     </div>
     <audio id="background-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://voca.ro/1ePBhIrIYWDz" type="audio/mpeg">
         Votre navigateur ne supporte pas l’audio HTML5.
     </audio>
-    <script>
-        // Gestion de la musique
-        const music = document.getElementById("background-music");
-        const playButton = document.getElementById("play-music");
-        const pauseButton = document.getElementById("pause-music");
-
-        playButton.addEventListener("click", () => {
-            music.play().catch(error => console.log("Erreur de lecture :", error));
-        });
-
-        pauseButton.addEventListener("click", () => {
-            music.pause();
-        });
-
-        // Détection d'erreurs
-        music.addEventListener("error", (e) => {
-            console.error("Erreur audio :", e);
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
