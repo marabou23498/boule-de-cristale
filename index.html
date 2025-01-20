@@ -33,32 +33,35 @@
             background-color: #d4af37;
             color: white;
         }
-        #message {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 24px;
-            text-shadow: 2px 2px 5px black;
-            opacity: 1;
-            transition: opacity 1s ease-in-out;
-        }
     </style>
 </head>
 <body>
-    <!-- Contrôles de la musique -->
+    <!-- Boutons de contrôle pour la musique -->
     <div id="music-controls">
         <button id="play-music">▶️ Start</button>
         <button id="pause-music">⏸️ Pause</button>
     </div>
 
-    <!-- Message au bas de l'écran -->
-    <div id="message">Cliquez sur la sphère pour recevoir un message ❤️</div>
+    <!-- Lecteur SoundCloud -->
+    <iframe width="0" height="0" style="display:none;" scrolling="no" frameborder="no" allow="autoplay" 
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/101588669&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+    </iframe>
 
-    <!-- Inclusion de Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // Gestion du lecteur SoundCloud
+        const iframe = document.querySelector("iframe");
+        const playButton = document.getElementById("play-music");
+        const pauseButton = document.getElementById("pause-music");
+
+        // Activer la lecture
+        playButton.addEventListener("click", () => {
+            iframe.contentWindow.postMessage(JSON.stringify({ method: 'play' }), '*');
+        });
+
+        // Mettre en pause
+        pauseButton.addEventListener("click", () => {
+            iframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*');
+        });
+    </script>
 </body>
 </html>
