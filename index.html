@@ -8,7 +8,8 @@
         body {
             margin: 0;
             overflow: hidden;
-            background: radial-gradient(circle, #1e3c72, #2a5298); /* Couleurs de fond */
+            background: url('https://wallpaperaccess.com/full/250561.jpg') no-repeat center center fixed;
+            background-size: cover;
         }
         #music-controls {
             position: absolute;
@@ -43,20 +44,25 @@
         <source src="https://drive.google.com/uc?export=download&id=13oeHzEvpStfOMYSeoJPDRdzRQftOfScI" type="audio/mpeg">
         Votre navigateur ne supporte pas l’audio HTML5.
     </audio>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js"></script>
     <script>
         // Gestion de la musique
         const music = document.getElementById("background-music");
         const playButton = document.getElementById("play-music");
         const pauseButton = document.getElementById("pause-music");
 
+        // Bouton Lecture
         playButton.addEventListener("click", () => {
-            music.play();
+            music.play().catch(error => console.log("Erreur de lecture :", error));
         });
 
+        // Bouton Pause
         pauseButton.addEventListener("click", () => {
             music.pause();
+        });
+
+        // Détection d'erreurs
+        music.addEventListener("error", (e) => {
+            console.error("Erreur audio :", e);
         });
     </script>
 </body>
