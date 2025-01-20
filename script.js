@@ -241,29 +241,21 @@ const soundcloudPlayer = document.getElementById("soundcloud-player");
 const playButton = document.getElementById("play-music");
 const pauseButton = document.getElementById("pause-music");
 
-// Contrôles de la musique
-const playButton = document.getElementById("play-music");
-const pauseButton = document.getElementById("pause-music");
-
-// Ajout d'une balise audio
-const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
-audio.loop = true; // Activer la boucle pour répéter la musique
-
 // Lecture de la musique
 playButton.addEventListener("click", () => {
-    audio.play()
-        .then(() => console.log("Musique en lecture."))
-        .catch((error) => console.error("Erreur lors de la lecture :", error));
+    soundcloudPlayer.contentWindow.postMessage(
+        JSON.stringify({ method: "play" }),
+        "*"
+    );
 });
 
 // Pause de la musique
 pauseButton.addEventListener("click", () => {
-    audio.pause();
-    console.log("Musique mise en pause.");
+    soundcloudPlayer.contentWindow.postMessage(
+        JSON.stringify({ method: "pause" }),
+        "*"
+    );
 });
-
-// Code existant : Scène Three.js et boule de cristal
-// (Ne change pas le reste du code de la scène)
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("background-video");
 
